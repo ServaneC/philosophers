@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/13 12:26:20 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/13 12:32:37 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		main()
 	struct timeval end_time;
 
 	gettimeofday(&start_time, NULL);
-	usleep(100);	
+	usleep(1);	
 	gettimeofday(&end_time, NULL);
 	printf("seconds : %ld,%ld\n\n",
     start_time.tv_sec, start_time.tv_usec);
