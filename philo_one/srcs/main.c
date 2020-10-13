@@ -6,23 +6,18 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/13 12:32:37 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/13 14:08:34 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int		main()
+int			main(int ac, char **av)
 {
-	struct timeval start_time;
-	struct timeval end_time;
+	t_philo *philo;
 
-	gettimeofday(&start_time, NULL);
-	usleep(1);	
-	gettimeofday(&end_time, NULL);
-	printf("seconds : %ld,%ld\n\n",
-    start_time.tv_sec, start_time.tv_usec);
-	printf("seconds : %ld,%ld\n",
-    end_time.tv_sec, end_time.tv_usec);
+	if ((philo = init_philo()) == NULL)
+		return (0);
+	free(philo);
 	return (0);
 }
