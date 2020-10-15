@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/13 13:28:20 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/15 11:44:11 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,26 @@
 # include <sys/time.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
+# include <pthread.h>
 
-typedef struct	s_philo
+pthread_t		philosophers[2];
+pthread_mutex_t	mutex_forks[2]; 
+int				forks[2];
+
+typedef struct		s_philo
 {
-	int			nb_philo;
-	int			time_die;
-	int			time_eat;
-	int			time_sleep;
-	int			must_eat;
-}				t_philo;
+	int				philo_id;
+	int				nb_philo;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				must_eat;
+}					t_philo;
 
-void			ft_putstr(char *str);
-int				ft_atoi(const char *str);
-t_philo			*init_philo(void);
-int				fill_philo(t_philo *philo, int ac, char **av);
+void				ft_putstr(char *str);
+int					ft_atoi(const char *str);
+t_philo				*init_philo(int ac, char **av);
+int					fill_philo(t_philo *philo, int ac, char **av);
 
 #endif
