@@ -6,11 +6,22 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/16 12:46:15 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/16 13:46:20 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+t_data		*init_data(void)
+{
+	t_data		*data;
+
+	data = NULL;
+	if (!(data = malloc(sizeof(*data))))
+		return (NULL);
+	memset(data, 0, sizeof(*data));
+	return (data);
+}
 
 t_philo		*init_philo(int ac, char **av)
 {
@@ -35,7 +46,7 @@ t_philo		*init_philo(int ac, char **av)
 	return (philo);
 }
 
-t_idphilo	*init_idphilo(t_philo *philo, int id)
+t_idphilo	*init_idphilo(t_philo *philo, int id, t_data *data)
 {
 	t_idphilo	*idphilo;
 
@@ -44,6 +55,7 @@ t_idphilo	*init_idphilo(t_philo *philo, int id)
 		return (NULL);
 	memset(idphilo, 0, sizeof(*idphilo));
 	idphilo->philo = philo;
+	idphilo->data = data;
 	idphilo->philo_id = id;
 	return (idphilo);
 }
