@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/15 11:44:11 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/15 14:48:50 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <string.h>
 # include <pthread.h>
 
-pthread_t		philosophers[2];
-pthread_mutex_t	mutex_forks[2]; 
-int				forks[2];
+static pthread_t			philosophers[2];
+static pthread_mutex_t		mutex_forks[2];
+static int					forks[2];
 
 typedef struct		s_philo
 {
