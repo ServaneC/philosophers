@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/15 14:48:50 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/16 11:28:43 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@
 # include <string.h>
 # include <pthread.h>
 
-static pthread_t			philosophers[2];
-static pthread_mutex_t		mutex_forks[2];
-static int					forks[2];
+pthread_t			g_phithread[2];
+pthread_mutex_t		g_mutex[2];
+int					g_forks[2];
+
+typedef unsigned long long t_u64;
 
 typedef struct		s_philo
 {
-	int				philo_id;
+	t_u64			start_time;
 	int				nb_philo;
 	int				time_die;
 	int				time_eat;
@@ -34,9 +36,17 @@ typedef struct		s_philo
 	int				must_eat;
 }					t_philo;
 
+typedef struct		s_idphilo
+{
+	t_philo			*philo;
+	int				philo_id;
+}					t_idphilo;
+
 void				ft_putstr(char *str);
 int					ft_atoi(const char *str);
 t_philo				*init_philo(int ac, char **av);
-int					fill_philo(t_philo *philo, int ac, char **av);
+t_idphilo			*init_idphilo(t_philo *philo, int id);
+int					timestamp_ms(t_u64 start_time);
+t_u64				get_time_ms(void);
 
 #endif
