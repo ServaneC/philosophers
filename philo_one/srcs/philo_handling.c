@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/16 11:30:56 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/16 12:46:15 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_philo		*init_philo(int ac, char **av)
 {
 	t_philo			*philo;
 
-	memset(g_forks, 0, 2);
 	philo = NULL;
 	if (!(ac == 5 || ac == 6))
 	{

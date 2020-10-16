@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/16 11:47:47 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/16 13:00:35 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ t_philo				*init_philo(int ac, char **av);
 t_idphilo			*init_idphilo(t_philo *philo, int id);
 int					timestamp_ms(t_u64 start_time);
 t_u64				get_time_ms(void);
+void				*philosophe_life(void *arg);
 
 #endif

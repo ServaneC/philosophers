@@ -6,12 +6,12 @@
 #    By: schene <schene@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/13 11:52:24 by schene            #+#    #+#              #
-#    Updated: 2020/10/16 11:29:09 by schene           ###   ########.fr        #
+#    Updated: 2020/10/16 12:14:43 by schene           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		=	srcs/ft_putstr.c srcs/main.c srcs/ft_utils.c srcs/philo_handling.c \
-				srcs/time_management.c
+				srcs/time_management.c srcs/philosophe_life.c  
 
 OBJS		= ${SRCS:.c=.o}
 
