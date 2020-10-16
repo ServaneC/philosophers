@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/16 11:28:43 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/16 11:47:47 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <string.h>
 # include <pthread.h>
 
-pthread_t			g_phithread[2];
+pthread_t			g_thread[2];
 pthread_mutex_t		g_mutex[2];
 int					g_forks[2];
 
