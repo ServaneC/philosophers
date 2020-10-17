@@ -6,28 +6,28 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 16:30:17 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/17 18:31:57 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-static int	clean_end(t_idphilo **id, t_philo *philo, t_data *data)
+static int	clean_end(t_id **id_tab, t_philo *philo, t_data *data)
 {
 	int		i;
 
 	i = -1;
-	while (++i < philo->nb_philo && id && data)
+	while (++i < philo->nb_philo && id_tab && data)
 	{
-		if (pthread_join(id[i]->data->threads[i], NULL))
+		if (pthread_join(id_tab[i]->data->threads[i], NULL))
 			return (-1);
-		pthread_mutex_unlock(&id[i]->data->mutex[i]);
-		pthread_mutex_destroy(&id[i]->data->mutex[i]);
-		free(id[i]);
+		pthread_mutex_unlock(&id_tab[i]->data->mutex[i]);
+		pthread_mutex_destroy(&id_tab[i]->data->mutex[i]);
+		free(id_tab[i]);
 	}
 	free(philo);
-	if (id)
-		free(id);
+	if (id_tab)
+		free(id_tab);
 	if (data)
 	{
 		free(data->forks);
@@ -42,7 +42,7 @@ int			main(int ac, char **av)
 {
 	t_philo		*philo;
 	t_data		*data;
-	t_idphilo	**id;
+	t_id		**id_tab;
 	int			i;
 
 	i = -1;
@@ -50,15 +50,15 @@ int			main(int ac, char **av)
 		return (0);
 	if ((data = init_data(philo->nb_philo)) == NULL)
 		return (clean_end(NULL, philo, NULL));
-	if (!(id = malloc(sizeof(t_idphilo) * philo->nb_philo)))
+	if (!(id_tab = malloc(sizeof(t_id) * philo->nb_philo)))
 		return (clean_end(NULL, philo, data));
 	while (++i < philo->nb_philo)
 	{
-		if ((id[i] = init_idphilo(philo, i + 1, data)) == NULL)
+		if ((id_tab[i] = init_id(philo, i + 1, data)) == NULL)
 			return (0);
 		pthread_mutex_init(&data->mutex[i], NULL);
-		if (pthread_create(&data->threads[i], NULL, philo_life, (void *)id[i]))
+		if (pthread_create(&data->threads[i], NULL, philo_life, id_tab[i]))
 			return (-1);
 	}
-	return (clean_end(id, philo, data));
+	return (clean_end(id_tab, philo, data));
 }

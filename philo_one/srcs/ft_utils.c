@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_libft.c                                       :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:17:35 by schene            #+#    #+#             */
-/*   Updated: 2020/10/13 13:36:54 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/17 18:30:41 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int	ft_atoi(const char *str)
+int		ft_atoi(const char *str)
 {
 	int	i;
 	int	f;
@@ -38,4 +38,21 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (f * n);
+}
+
+char	*ft_strdup(char *s1)
+{
+	char	*copy;
+	int		i;
+
+	i = 0;
+	if (!(copy = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
+		return (NULL);
+	while (s1[i])
+	{
+		copy[i] = s1[i];
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
 }

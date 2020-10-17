@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 16:32:22 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/17 18:30:12 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_data		*init_data(int nb_philo)
 		memset(&data->threads[i], 0, sizeof(data->threads));
 		memset(&data->mutex[i], 0, sizeof(*data->mutex));
 		memset(&data->forks[i], 0, sizeof(data->forks));
-		data->forks[i] = 0;
 	}
 	return (data);
 }
@@ -50,7 +49,7 @@ t_philo		*init_philo(int ac, char **av)
 	if (!(philo = malloc(sizeof(*philo))))
 		return (NULL);
 	memset(philo, 0, sizeof(*philo));
-	philo->start_time = get_time_ms();
+	philo->start = get_time_ms();
 	philo->nb_philo = ft_atoi(av[1]);
 	philo->time_die = ft_atoi(av[2]);
 	philo->time_eat = ft_atoi(av[3]) * 1000;
@@ -60,20 +59,20 @@ t_philo		*init_philo(int ac, char **av)
 	return (philo);
 }
 
-t_idphilo	*init_idphilo(t_philo *philo, int id, t_data *data)
+t_id		*init_id(t_philo *philo, int id_philo, t_data *data)
 {
-	t_idphilo	*idphilo;
+	t_id	*id;
 
-	idphilo = NULL;
-	if (!(idphilo = malloc(sizeof(*idphilo))))
+	id = NULL;
+	if (!(id = malloc(sizeof(*id))))
 		return (NULL);
-	memset(idphilo, 0, sizeof(*idphilo));
-	idphilo->philo = philo;
-	idphilo->data = data;
-	idphilo->philo_id = id;
-	idphilo->left_frk = id - 1;
-	idphilo->right_frk = id - 2;
-	if (id == 1)
-		idphilo->right_frk = philo->nb_philo - 1;
-	return (idphilo);
+	memset(id, 0, sizeof(*id));
+	id->philo = philo;
+	id->data = data;
+	id->philo_id = id_philo;
+	id->left_frk = id_philo - 1;
+	id->right_frk = id_philo - 2;
+	if (id_philo == 1)
+		id->right_frk = philo->nb_philo - 1;
+	return (id);
 }
