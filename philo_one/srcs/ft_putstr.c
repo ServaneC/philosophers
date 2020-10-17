@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:20 by schene            #+#    #+#             */
-/*   Updated: 2020/10/13 11:44:14 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/17 18:51:23 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ int		ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
 }
 
 void	ft_putstr(char *str)

@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 18:27:41 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/17 18:51:11 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ typedef struct		s_id
 
 void				ft_putstr(char *str);
 int					ft_strlen(char *str);
+void				ft_putchar(char c);
+void				ft_putnbr(int nb);
 int					ft_atoi(const char *str);
 char				*ft_strdup(char *s1);
 t_philo				*init_philo(int ac, char **av);
-t_id			*init_id(t_philo *philo, int id, t_data *data);
+t_id				*init_id(t_philo *philo, int id, t_data *data);
 t_data				*init_data(int	nb_philo);
 int					timestamp_ms(t_u64 start);
 t_u64				get_time_ms(void);
