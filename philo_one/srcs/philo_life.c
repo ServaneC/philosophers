@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 18:29:07 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 14:33:48 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ static void		taking_forks(t_id *id, int time_passed)
 	pthread_mutex_lock(&id->data->mutex[id->right_frk]);
 	if (time_passed <= id->philo->time_die && !(g_death))
 	{
-		print_state(timestamp_ms(id->philo->start), id->philo_id, TAKE_FORK);
+		print_state(id, TAKE_FORK);
 		id->data->forks[id->left_frk] = 1;
 		pthread_mutex_lock(&id->data->mutex[id->left_frk]);
 	}
 	if (time_passed <= id->philo->time_die && !(g_death))
-		print_state(timestamp_ms(id->philo->start), id->philo_id, TAKE_FORK);
+		print_state(id, TAKE_FORK);
 }
 
 static t_u64	philo_eat(t_id *id, int time_passed)
@@ -34,7 +34,7 @@ static t_u64	philo_eat(t_id *id, int time_passed)
 	(void)time_passed;
 	if (time_passed <= id->philo->time_die && !(g_death))
 	{
-		print_state(timestamp_ms(id->philo->start), id->philo_id, EAT);
+		print_state(id, EAT);
 		usleep(id->philo->time_eat);
 	}
 	pthread_mutex_unlock(&id->data->mutex[id->right_frk]);
@@ -48,7 +48,7 @@ static void		philo_sleep(t_id *id, int time_passed)
 {
 	if (time_passed <= id->philo->time_die && !(g_death))
 	{
-		print_state(timestamp_ms(id->philo->start), id->philo_id, SLEEP);
+		print_state(id, SLEEP);
 		usleep(id->philo->time_sleep);
 	}
 }
@@ -56,7 +56,7 @@ static void		philo_sleep(t_id *id, int time_passed)
 static void		philo_think(t_id *id, int time_passed)
 {
 	if (time_passed <= id->philo->time_die && !(g_death))
-		print_state(timestamp_ms(id->philo->start), id->philo_id, THINK);
+		print_state(id, THINK);
 }
 
 void			*philo_life(void *arg)
@@ -83,7 +83,7 @@ void			*philo_life(void *arg)
 	if (!g_death)
 	{
 		g_death++;
-		print_state(timestamp_ms(id->philo->start), id->philo_id, DEAD);
+		print_state(id, DEAD);
 	}
 	return (NULL);
 }

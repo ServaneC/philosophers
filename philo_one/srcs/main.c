@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 18:31:57 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 14:46:41 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ int			main(int ac, char **av)
 	while (++i < philo->nb_philo)
 	{
 		if ((id_tab[i] = init_id(philo, i + 1, data)) == NULL)
-			return (0);
+			return (clean_end(id_tab, philo, data));
 		pthread_mutex_init(&data->mutex[i], NULL);
 		if (pthread_create(&data->threads[i], NULL, philo_life, id_tab[i]))
-			return (-1);
+			return (clean_end(id_tab, philo, data));
 	}
 	return (clean_end(id_tab, philo, data));
 }

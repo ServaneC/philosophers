@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 18:51:11 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 14:51:14 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct		s_philo
 
 typedef struct		s_data
 {
+	pthread_mutex_t		wr_right;
 	pthread_t			*threads;
 	pthread_mutex_t		*mutex;
 	int					*forks;
@@ -58,7 +59,6 @@ typedef struct		s_id
 
 void				ft_putstr(char *str);
 int					ft_strlen(char *str);
-void				ft_putchar(char c);
 void				ft_putnbr(int nb);
 int					ft_atoi(const char *str);
 char				*ft_strdup(char *s1);
@@ -68,6 +68,6 @@ t_data				*init_data(int	nb_philo);
 int					timestamp_ms(t_u64 start);
 t_u64				get_time_ms(void);
 void				*philo_life(void *arg);
-void				print_state(int timestamp, int id, int action);
+void				print_state(t_id *id, int action);
 
 #endif

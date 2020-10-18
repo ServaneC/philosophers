@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 19:05:55 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 14:49:33 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_data		*init_data(int nb_philo)
 	if (!(data->forks = malloc(sizeof(*data->forks) * (nb_philo + 1))))
 		return (NULL);
 	i = -1;
+	memset(&data->wr_right, 0, sizeof(data->wr_right));
+	pthread_mutex_init(&data->wr_right, NULL);
 	while (++i < nb_philo)
 	{
 		memset(&data->threads[i], 0, sizeof(data->threads));
