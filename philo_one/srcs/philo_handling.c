@@ -6,11 +6,26 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/18 14:49:33 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 16:09:29 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+int			check_av(int ac, char **av)
+{
+	int	i;
+
+	i = 0;
+	if (!(ac == 5 || ac == 6))
+		return (print_error());
+	while (av[++i])
+	{
+		if (!is_all_digit(av[i]))
+			return (print_error());
+	}
+	return (1);
+}
 
 t_data		*init_data(int nb_philo)
 {
@@ -38,18 +53,13 @@ t_data		*init_data(int nb_philo)
 	return (data);
 }
 
-t_philo		*init_philo(int ac, char **av)
+t_philo		*init_philo(char **av)
 {
 	t_philo			*philo;
 
 	philo = NULL;
-	if (!(ac == 5 || ac == 6))
-	{
-		ft_putstr("Error: philo_one need 4 or 5 arguments !\n");
-		ft_putstr("-> number_of_philosopher time_to_die time_to_eat time");
-		ft_putstr("_to_sleep [number_of_time_each_philosophers_must_eat]\n");
+	if (av[5] && (ft_atoi(av[5]) == 0))
 		return (NULL);
-	}
 	if (!(philo = malloc(sizeof(*philo))))
 		return (NULL);
 	memset(philo, 0, sizeof(*philo));
@@ -58,7 +68,7 @@ t_philo		*init_philo(int ac, char **av)
 	philo->time_die = ft_atoi(av[2]);
 	philo->time_eat = ft_atoi(av[3]) * 1000;
 	philo->time_sleep = ft_atoi(av[4]) * 1000;
-	if (ac == 6)
+	if (av[5])
 		philo->must_eat = ft_atoi(av[5]);
 	return (philo);
 }
@@ -74,6 +84,7 @@ t_id		*init_id(t_philo *philo, int id_philo, t_data *data)
 	id->philo = philo;
 	id->data = data;
 	id->philo_id = id_philo;
+	id->nb_meals = 0;
 	id->left_frk = id_philo - 1;
 	id->right_frk = id_philo - 2;
 	if (id_philo == 1)

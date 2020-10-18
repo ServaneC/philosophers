@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/18 14:46:41 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 16:26:37 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int			main(int ac, char **av)
 	int			i;
 
 	i = -1;
-	if ((philo = init_philo(ac, av)) == NULL)
+	if (!check_av(ac, av))
+		return (0);
+	if ((philo = init_philo(av)) == NULL)
 		return (0);
 	if ((data = init_data(philo->nb_philo)) == NULL)
 		return (clean_end(NULL, philo, NULL));

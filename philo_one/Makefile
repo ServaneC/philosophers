@@ -6,11 +6,11 @@
 #    By: schene <schene@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/13 11:52:24 by schene            #+#    #+#              #
-#    Updated: 2020/10/17 17:52:46 by schene           ###   ########.fr        #
+#    Updated: 2020/10/18 15:03:36 by schene           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	srcs/ft_putstr.c srcs/main.c srcs/ft_utils.c srcs/philo_handling.c \
+SRCS		=	srcs/ft_print.c srcs/main.c srcs/ft_utils.c srcs/philo_handling.c \
 				srcs/time_management.c srcs/philo_life.c  srcs/print_statements.c
 
 OBJS		= ${SRCS:.c=.o}

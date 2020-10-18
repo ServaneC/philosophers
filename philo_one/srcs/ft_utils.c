@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:17:35 by schene            #+#    #+#             */
-/*   Updated: 2020/10/17 18:30:41 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 15:39:34 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,17 @@ int		ft_atoi(const char *str)
 	return (f * n);
 }
 
-char	*ft_strdup(char *s1)
+int		is_all_digit(char *str)
 {
-	char	*copy;
-	int		i;
+	int i;
 
-	i = 0;
-	if (!(copy = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
-		return (NULL);
-	while (s1[i])
+	i = -1;
+	while (str[++i])
 	{
-		copy[i] = s1[i];
-		i++;
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
 	}
-	copy[i] = '\0';
-	return (copy);
+	if (i == 0)
+		return (0);
+	return (1);
 }

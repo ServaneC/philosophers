@@ -6,11 +6,19 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:44:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/18 14:52:44 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/18 16:36:39 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+int		print_error(void)
+{
+	ft_putstr("Error: philo_one need 4 or 5 NUMERIC arguments \n");
+	ft_putstr("-> number_of_philosopher time_to_die time_to_eat time");
+	ft_putstr("_to_sleep [number_of_time_each_philosophers_must_eat]\n");
+	return (0);
+}
 
 char	*action_message(int action)
 {
@@ -22,10 +30,12 @@ char	*action_message(int action)
 		return ("is sleeping\n");
 	else if (action == THINK)
 		return ("is thinking\n");
+	else if (action == END)
+		return ("each philosopher has eaten the required number of time\n");
 	return ("died\n");
 }
 
-void	print_state(t_id *id, int action)
+void	*print_state(t_id *id, int action)
 {
 	static int end;
 
@@ -34,11 +44,15 @@ void	print_state(t_id *id, int action)
 	{
 		ft_putnbr(timestamp_ms(id->philo->start));
 		write(1, " ", 1);
-		ft_putnbr(id->philo_id);
-		if (action == DEAD)
+		if (action != END)
+		{
+			ft_putnbr(id->philo_id);
+			write(1, " ", 2);
+		}
+		if (action >= DEAD)
 			end = 1;
-		write(1, "\t", 1);
 		write(1, action_message(action), ft_strlen(action_message(action)));
 	}
 	pthread_mutex_unlock(&id->data->wr_right);
+	return (NULL);
 }
