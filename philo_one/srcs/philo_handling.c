@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/19 14:36:28 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/19 16:39:27 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_philo			*init_philo(int ac, char **av)
 	if (!check_av(ac, av))
 		return (NULL);
 	if (av[5] && (ft_atoi(av[5]) == 0))
+		return (NULL);
+	else if (ft_atoi(av[1]) < 2)
 		return (NULL);
 	if (!(philo = malloc(sizeof(*philo))))
 		return (NULL);

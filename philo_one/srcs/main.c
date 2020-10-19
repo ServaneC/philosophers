@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/19 14:36:49 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/19 16:29:46 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,7 @@ static int	clean_end(t_id **id_tab, t_philo *philo, t_data *data)
 	return (1);
 }
 
-static void	join_thread(t_id **id_tab)
-{
-	int		i;
-
-	i = -1;
-	while (++i < id_tab[0]->philo->nb_philo)
-		pthread_join(id_tab[i]->data->threads[i], NULL);
-	if (!g_death)
-		print_state(id_tab[0], END);
-}
-
-static int	start_thread(t_id **id_tab)
+static int	th_start_join(t_id **id_tab)
 {
 	int		i;
 
@@ -55,6 +44,11 @@ static int	start_thread(t_id **id_tab)
 	while (++i < id_tab[0]->philo->nb_philo)
 		pthread_create(&id_tab[i]->data->threads[i], NULL,
 			philo_life, id_tab[i]);
+	i = -1;
+	while (++i < id_tab[0]->philo->nb_philo)
+		pthread_join(id_tab[i]->data->threads[i], NULL);
+	if (!g_death)
+		print_state(id_tab[0], END);
 	return (1);
 }
 
@@ -76,7 +70,6 @@ int			main(int ac, char **av)
 		if ((id_tab[i] = init_id(philo, i + 1, data)) == NULL)
 			return (clean_end(id_tab, philo, data));
 	philo->start = get_time_ms();
-	start_thread(id_tab);
-	join_thread(id_tab);
+	th_start_join(id_tab);
 	return (clean_end(id_tab, philo, data));
 }

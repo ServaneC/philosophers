@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/19 14:45:21 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/19 16:31:24 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ void			*philo_life(void *arg)
 			print_state(id, THINK);
 		}
 	}
-	g_death++;
 	return (print_state(id, DEAD));
 }
