@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:44:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/18 16:36:39 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/19 14:49:14 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*print_state(t_id *id, int action)
 			write(1, " ", 2);
 		}
 		if (action >= DEAD)
-			end = 1;
+			end++;
 		write(1, action_message(action), ft_strlen(action_message(action)));
 	}
 	pthread_mutex_unlock(&id->data->wr_right);

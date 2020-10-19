@@ -6,13 +6,13 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/18 16:09:29 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/19 14:36:28 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int			check_av(int ac, char **av)
+static int		check_av(int ac, char **av)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ int			check_av(int ac, char **av)
 	return (1);
 }
 
-t_data		*init_data(int nb_philo)
+t_data			*init_data(int nb_philo)
 {
 	t_data		*data;
 	int			i;
@@ -49,21 +49,24 @@ t_data		*init_data(int nb_philo)
 		memset(&data->threads[i], 0, sizeof(data->threads));
 		memset(&data->mutex[i], 0, sizeof(*data->mutex));
 		memset(&data->forks[i], 0, sizeof(data->forks));
+		pthread_mutex_init(&data->mutex[i], NULL);
 	}
 	return (data);
 }
 
-t_philo		*init_philo(char **av)
+t_philo			*init_philo(int ac, char **av)
 {
 	t_philo			*philo;
 
 	philo = NULL;
+	if (!check_av(ac, av))
+		return (NULL);
 	if (av[5] && (ft_atoi(av[5]) == 0))
 		return (NULL);
 	if (!(philo = malloc(sizeof(*philo))))
 		return (NULL);
 	memset(philo, 0, sizeof(*philo));
-	philo->start = get_time_ms();
+	philo->start = 0;
 	philo->nb_philo = ft_atoi(av[1]);
 	philo->time_die = ft_atoi(av[2]);
 	philo->time_eat = ft_atoi(av[3]) * 1000;
@@ -73,7 +76,7 @@ t_philo		*init_philo(char **av)
 	return (philo);
 }
 
-t_id		*init_id(t_philo *philo, int id_philo, t_data *data)
+t_id			*init_id(t_philo *philo, int id_philo, t_data *data)
 {
 	t_id	*id;
 

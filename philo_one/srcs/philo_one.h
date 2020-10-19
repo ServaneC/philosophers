@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/18 16:32:56 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/19 14:13:14 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void				ft_putstr(char *str);
 int					ft_strlen(char *str);
 void				ft_putnbr(int nb);
 int					ft_atoi(const char *str);
-t_philo				*init_philo(char **av);
+t_philo				*init_philo(int ac, char **av);
 t_id				*init_id(t_philo *philo, int id, t_data *data);
 t_data				*init_data(int	nb_philo);
 int					timestamp_ms(t_u64 start);
@@ -72,6 +72,5 @@ void				*philo_life(void *arg);
 void				*print_state(t_id *id, int action);
 int					is_all_digit(char *str);
 int					print_error(void);
-int					check_av(int ac, char **av);
 
 #endif
