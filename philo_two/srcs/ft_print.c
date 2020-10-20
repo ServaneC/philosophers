@@ -6,11 +6,11 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:20 by schene            #+#    #+#             */
-/*   Updated: 2020/10/20 10:36:18 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/20 10:39:34 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 int				ft_strlen(char *str)
 {

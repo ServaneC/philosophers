@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/19 16:31:24 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/20 11:03:44 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static t_u64	philo_eat(t_id *id)
 
 	start_meal = get_time_ms();
 	print_state(id, EAT);
-	usleep(id->philo->time_eat);
+	usleep(id->data->time_eat);
 	id->data->forks[id->right_frk] = 0;
 	pthread_mutex_unlock(&id->data->mutex[id->right_frk]);
 	id->data->forks[id->left_frk] = 0;
 	pthread_mutex_unlock(&id->data->mutex[id->left_frk]);
 	print_state(id, SLEEP);
-	usleep(id->philo->time_sleep);
+	usleep(id->data->time_sleep);
 	return (start_meal);
 }
 
@@ -45,14 +45,14 @@ void			*philo_life(void *arg)
 
 	id = (t_id *)arg;
 	last_meal = get_time_ms();
-	while (timestamp_ms(last_meal) < id->philo->time_die && !(g_death))
+	while (timestamp_ms(last_meal) < id->data->time_die && !(g_death))
 	{
 		if (id->data->forks[id->right_frk] == 0 &&
 			id->data->forks[id->left_frk] == 0)
 		{
 			taking_forks(id);
 			last_meal = philo_eat(id);
-			if (++id->nb_meals == id->philo->must_eat)
+			if (++id->nb_meals == id->data->must_eat)
 				return (NULL);
 			print_state(id, THINK);
 		}
