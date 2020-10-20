@@ -6,11 +6,13 @@
 #    By: schene <schene@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/19 16:53:25 by schene            #+#    #+#              #
-#    Updated: 2020/10/20 10:34:47 by schene           ###   ########.fr        #
+#    Updated: 2020/10/20 12:52:45 by schene           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		=	
+SRCS		=	srcs/main.c srcs/ft_print.c srcs/ft_utils.c srcs/philo_life.c \
+				srcs/struct_management.c srcs/time_management.c \
+				srcs/print_statements.c
 
 OBJS		= ${SRCS:.c=.o}
 
@@ -20,7 +22,7 @@ NAME		= philo_two
 
 CC			= clang
 
-CFLAGS		= -Wall -Wextra -Werror -pthread -lrt
+CFLAGS		= -Wall -Wextra -Werror -pthread
 
 all:		${NAME}
 
