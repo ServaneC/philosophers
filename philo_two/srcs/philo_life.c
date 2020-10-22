@@ -6,19 +6,22 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:00:28 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/22 13:11:53 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 static void		taking_forks(t_id *id)
 {
-	id->data->forks[id->right_frk] = 1;
-	id->data->forks[id->left_frk] = 1;
-	pthread_mutex_lock(&id->data->mutex[id->right_frk]);
-	pthread_mutex_lock(&id->data->mutex[id->left_frk]);
+	// id->data->forks -= 2;
+	while (forks < 2)
+		;
+	forks -= 1;
+	sem_wait(id->data->sem);
 	print_state(id, TAKE_FORK);
+	forks -= 1;
+	sem_wait(id->data->sem);
 	print_state(id, TAKE_FORK);
 }
 
@@ -29,10 +32,12 @@ static t_u64	philo_eat(t_id *id)
 	start_meal = get_time_ms();
 	print_state(id, EAT);
 	usleep(id->data->time_eat);
-	id->data->forks[id->right_frk] = 0;
-	pthread_mutex_unlock(&id->data->mutex[id->right_frk]);
-	id->data->forks[id->left_frk] = 0;
-	pthread_mutex_unlock(&id->data->mutex[id->left_frk]);
+	sem_post(id->data->sem);
+	forks += 1;
+	sem_post(id->data->sem);
+	forks += 1;
+	// id->data->forks += 2;
+	// forks += 2;
 	print_state(id, SLEEP);
 	usleep(id->data->time_sleep);
 	return (start_meal);
@@ -47,15 +52,13 @@ void			*philo_life(void *arg)
 	last_meal = get_time_ms();
 	while (timestamp_ms(last_meal) < id->data->time_die && !(g_death))
 	{
-		if (id->data->forks[id->right_frk] == 0 &&
-			id->data->forks[id->left_frk] == 0)
-		{
-			taking_forks(id);
-			last_meal = philo_eat(id);
-			if (++id->nb_meals == id->data->must_eat)
-				return (NULL);
-			print_state(id, THINK);
-		}
+		printf ("%d forks = %d\n", id->philo_id, forks);
+		taking_forks(id);
+		printf ("%d -> forks = %d\n", id->philo_id,forks);
+		last_meal = philo_eat(id);
+		if (++id->nb_meals == id->data->must_eat)
+			return (NULL);
+		print_state(id, THINK);
 	}
 	return (print_state(id, DEAD));
 }
