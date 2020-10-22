@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:09:30 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/22 15:19:24 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void		taking_forks(t_id *id)
 {
-	// id->data->forks -= 2;
 	while (forks < 2)
 		;
 	forks -= 1;
@@ -36,8 +35,6 @@ static t_u64	philo_eat(t_id *id)
 	forks += 1;
 	sem_post(id->data->sem);
 	forks += 1;
-	// id->data->forks += 2;
-	// forks += 2;
 	print_state(id, SLEEP);
 	usleep(id->data->time_sleep);
 	return (start_meal);
@@ -52,13 +49,12 @@ void			*philo_life(void *arg)
 	last_meal = get_time_ms();
 	while (timestamp_ms(last_meal) < id->data->time_die && !(g_death))
 	{
-		printf ("%d forks = %d\n", id->philo_id, forks);
 		taking_forks(id);
-		printf ("%d -> forks = %d\n", id->philo_id,forks);
 		last_meal = philo_eat(id);
 		if (++id->nb_meals == id->data->must_eat)
 			return (NULL);
 		print_state(id, THINK);
 	}
+	g_death++;
 	return (print_state(id, DEAD));
 }
