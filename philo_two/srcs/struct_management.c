@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 10:43:04 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 11:10:33 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:53:06 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void			set_data(t_data *data, char **av, int nb_philo)
 
 	i = -1;
 	memset(&data->wr_right, 0, sizeof(data->wr_right));
-	forks = nb_philo;
+	g_forks = nb_philo;
 	sem_unlink("/wr_right");
 	sem_unlink("/forks");
 	data->wr_right = NULL;
-	data->wr_right = sem_open("/wr_right", O_CREAT|O_EXCL, 0600, 1);
-	data->sem = sem_open("/forks", O_CREAT|O_EXCL, 0600, nb_philo);
+	data->wr_right = sem_open("/wr_right", O_CREAT | O_EXCL, 0600, 1);
+	data->sem = sem_open("/forks", O_CREAT | O_EXCL, 0600, nb_philo);
 	data->start = 0;
 	data->nb_philo = nb_philo;
 	data->time_die = ft_atoi(av[2]);
@@ -57,15 +57,9 @@ t_data			*init_data(int ac, char **av)
 	if (!check_av(ac, av))
 		return (NULL);
 	nb_philo = ft_atoi(av[1]);
-	if (av[5] && (ft_atoi(av[5]) == 0))
-		return (NULL);
-	else if (ft_atoi(av[1]) < 2)
+	if ((av[5] && (ft_atoi(av[5]) == 0)) || nb_philo < 2)
 		return (NULL);
 	if (!(data = malloc(sizeof(*data))))
-		return (NULL);
-	if (!(data->wr_right = malloc(sizeof(*data->wr_right))))
-		return (NULL);	
-	if (!(data->sem = malloc(sizeof(*data->sem))))
 		return (NULL);
 	memset(data, 0, sizeof(*data));
 	if (!(data->threads = malloc(sizeof(*data->threads) * (nb_philo + 1))))

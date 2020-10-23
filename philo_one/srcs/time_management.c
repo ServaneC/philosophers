@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 11:28:03 by schene            #+#    #+#             */
-/*   Updated: 2020/10/19 16:11:24 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:33:32 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 int			timestamp_ms(t_u64 start)
 {
-	t_u64			current_time;
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	current_time = (1000000 * tv.tv_sec) + tv.tv_usec;
-	return ((current_time - start) / 1000);
+	return ((((1000000 * tv.tv_sec) + tv.tv_usec) - start) / 1000);
 }
 
 t_u64		get_time_ms(void)

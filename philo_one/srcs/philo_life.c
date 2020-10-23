@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:00:28 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:46:51 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void			*philo_life(void *arg)
 	last_meal = get_time_ms();
 	while (timestamp_ms(last_meal) < id->data->time_die && !(g_death))
 	{
-		if (id->data->forks[id->right_frk] == 0 &&
-			id->data->forks[id->left_frk] == 0)
+		if (!id->data->forks[id->right_frk] && !id->data->forks[id->left_frk])
 		{
 			taking_forks(id);
 			last_meal = philo_eat(id);

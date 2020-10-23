@@ -6,11 +6,11 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:09:50 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 11:09:20 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:48:02 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h" 
+#include "philo_two.h"
 
 static int	clean_end(t_id **id_tab, t_data *data)
 {
@@ -23,8 +23,6 @@ static int	clean_end(t_id **id_tab, t_data *data)
 	sem_unlink("/forks");
 	while (++i < data->nb_philo && id_tab)
 		free(id_tab[i]);
-	// free(data->wr_right);
-	// free(data->sem);
 	free(data->threads);
 	free(data);
 	if (id_tab)
