@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:00:07 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/23 11:10:05 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ t_data			*init_data(int ac, char **av)
 	t_data		*data;
 	int			nb_philo;
 
-	nb_philo = ft_atoi(av[1]);
 	data = NULL;
 	if (!check_av(ac, av))
 		return (NULL);
+	nb_philo = ft_atoi(av[1]);
 	if (av[5] && (ft_atoi(av[5]) == 0))
 		return (NULL);
 	else if (ft_atoi(av[1]) < 2)
