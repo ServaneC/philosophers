@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 10:43:04 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:09:00 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/22 15:17:31 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void			set_data(t_data *data, char **av, int nb_philo)
 	forks = nb_philo;
 	sem_unlink("/wr_right");
 	sem_unlink("/forks");
+	data->wr_right = NULL;
 	data->wr_right = sem_open("/wr_right", O_CREAT|O_EXCL, 0600, 1);
 	data->sem = sem_open("/forks", O_CREAT|O_EXCL, 0600, nb_philo);
 	data->start = 0;
@@ -45,7 +46,6 @@ void			set_data(t_data *data, char **av, int nb_philo)
 	data->time_sleep = ft_atoi(av[4]) * 1000;
 	if (av[5])
 		data->must_eat = ft_atoi(av[5]);
-	// data->forks = nb_philo;
 }
 
 t_data			*init_data(int ac, char **av)

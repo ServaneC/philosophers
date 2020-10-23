@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:09:50 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:09:37 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/22 15:29:23 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	clean_end(t_id **id_tab, t_data *data)
 	sem_unlink("/forks");
 	while (++i < data->nb_philo && id_tab)
 		free(id_tab[i]);
-	free(data->wr_right);
-	free(data->sem);
+	// free(data->wr_right);
+	// free(data->sem);
 	free(data->threads);
 	free(data);
 	if (id_tab)

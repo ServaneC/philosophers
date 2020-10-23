@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 10:35:46 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:09:43 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/22 15:19:58 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct		s_data
 	sem_t			*wr_right;
 	sem_t			*sem;
 	pthread_t		*threads;
-	// int				forks;
 }					t_data;
 
 typedef struct		s_id
