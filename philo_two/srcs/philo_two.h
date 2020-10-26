@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 10:35:46 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 10:55:05 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:52:16 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <fcntl.h>
-# include <sys/stat.h> 
+# include <sys/stat.h>
 
 # define TAKE_FORK 0
 # define EAT 1
@@ -31,7 +31,7 @@
 # define END 5
 
 int					g_death;
-int					forks;
+int					g_forks;
 
 typedef unsigned long long t_u64;
 

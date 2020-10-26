@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:44:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 10:55:08 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/23 12:40:57 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int		print_error(void)
 char	*action_message(int action)
 {
 	if (action == TAKE_FORK)
-		return ("has taken a fork\n");
+		return (" has taken a fork\n");
 	else if (action == EAT)
-		return ("is eating\n");
+		return (" is eating\n");
 	else if (action == SLEEP)
-		return ("is sleeping\n");
+		return (" is sleeping\n");
 	else if (action == THINK)
-		return ("is thinking\n");
+		return (" is thinking\n");
 	else if (action == END)
 		return ("each philosopher has eaten the required number of time\n");
-	return ("died\n");
+	return (" died\n");
 }
 
 void	*print_state(t_id *id, int action)
@@ -45,10 +45,7 @@ void	*print_state(t_id *id, int action)
 		ft_putnbr(timestamp_ms(id->data->start));
 		write(1, " ", 1);
 		if (action != END)
-		{
 			ft_putnbr(id->philo_id);
-			write(1, " ", 2);
-		}
 		if (action >= DEAD)
 			end++;
 		write(1, action_message(action), ft_strlen(action_message(action)));
