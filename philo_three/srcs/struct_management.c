@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:08:03 by schene            #+#    #+#             */
-/*   Updated: 2020/10/26 12:08:24 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/26 14:41:19 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,6 @@ t_data			*init_data(int ac, char **av)
 	if (!(data = malloc(sizeof(*data))))
 		return (NULL);
 	memset(data, 0, sizeof(*data));
-	if (!(data->threads = malloc(sizeof(*data->threads) * (nb_philo + 1))))
-		return (NULL);
 	set_data(data, av, nb_philo);
 	return (data);
-}
-
-t_id			*init_id(t_data *data, int id_philo)
-{
-	t_id	*id;
-
-	id = NULL;
-	if (!(id = malloc(sizeof(*id))))
-		return (NULL);
-	memset(id, 0, sizeof(*id));
-	id->data = data;
-	id->philo_id = id_philo;
-	id->nb_meals = 0;
-	return (id);
 }
