@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/17 17:44:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/26 11:46:31 by schene           ###   ########.fr       */
+/*   Created: 2020/10/26 12:00:00 by schene            #+#    #+#             */
+/*   Updated: 2020/10/26 13:21:43 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 int		print_error(void)
 {
@@ -53,5 +53,7 @@ void	*print_state(t_id *id, int action)
 		write(1, action_message(action), ft_strlen(action_message(action)));
 	}
 	sem_post(id->data->wr_right);
+	if (end)
+		exit(0);
 	return (NULL);
 }
