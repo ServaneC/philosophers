@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:09:50 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 12:48:02 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/26 10:34:13 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ static int	clean_end(t_id **id_tab, t_data *data)
 	return (1);
 }
 
-static int	th_start_join(t_id **id_tab)
+static int	th_start_join(t_id **id_tab, int nb_philo)
 {
 	int		i;
 
 	i = -1;
-	while (++i < id_tab[0]->data->nb_philo)
+	while (++i < nb_philo)
 		pthread_create(&id_tab[i]->data->threads[i], NULL,
 			philo_life, id_tab[i]);
 	i = -1;
-	while (++i < id_tab[0]->data->nb_philo)
+	while (++i < nb_philo)
 		pthread_join(id_tab[i]->data->threads[i], NULL);
 	if (!g_death)
 		print_state(id_tab[0], END);
@@ -61,6 +61,6 @@ int			main(int ac, char **av)
 		if ((id_tab[i] = init_id(data, i + 1)) == NULL)
 			return (clean_end(id_tab, data));
 	data->start = get_time_ms();
-	th_start_join(id_tab);
+	th_start_join(id_tab, data->nb_philo);
 	return (clean_end(id_tab, data));
 }

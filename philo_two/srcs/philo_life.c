@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 12:53:06 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/26 11:29:21 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void		taking_forks(t_id *id)
 {
 	g_forks -= 2;
 	sem_wait(id->data->sem);
-	print_state(id, TAKE_FORK);
 	sem_wait(id->data->sem);
+	print_state(id, TAKE_FORK);
 	print_state(id, TAKE_FORK);
 }
 
@@ -28,9 +28,9 @@ static t_u64	philo_eat(t_id *id)
 	start_meal = get_time_ms();
 	print_state(id, EAT);
 	usleep(id->data->time_eat);
-	sem_post(id->data->sem);
-	sem_post(id->data->sem);
 	g_forks += 2;
+	sem_post(id->data->sem);
+	sem_post(id->data->sem);
 	print_state(id, SLEEP);
 	usleep(id->data->time_sleep);
 	return (start_meal);
@@ -54,6 +54,5 @@ void			*philo_life(void *arg)
 			print_state(id, THINK);
 		}
 	}
-	g_death++;
 	return (print_state(id, DEAD));
 }

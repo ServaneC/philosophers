@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 17:44:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 12:40:57 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/26 10:56:50 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	*print_state(t_id *id, int action)
 {
 	static int	end;
 
+	if (action == DEAD)
+		g_death++;
 	sem_wait(id->data->wr_right);
 	if (!end)
 	{
