@@ -6,14 +6,11 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:00:00 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 12:19:40 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:51:10 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
-
-extern sem_t	*g_sem;
-extern int		g_death;
 
 int		print_error(void)
 {
@@ -42,9 +39,7 @@ void	*print_state(t_id *id, int action)
 {
 	static int	end;
 
-	if (action == DEAD)
-		g_death++;
-	sem_wait(g_wr_right);
+	sem_wait(id->data->wr_right);
 	if (!end)
 	{
 		ft_putnbr(timestamp_ms(id->data->start));
@@ -55,6 +50,6 @@ void	*print_state(t_id *id, int action)
 			end++;
 		write(1, action_message(action), ft_strlen(action_message(action)));
 	}
-	sem_post(g_wr_right);
+	sem_post(id->data->wr_right);
 	return (NULL);
 }

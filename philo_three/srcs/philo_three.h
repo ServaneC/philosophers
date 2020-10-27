@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:57:26 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 13:19:48 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:47:58 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@
 # define DEAD 4
 # define END 5
 
-int					g_death;
-int					g_forks;
-sem_t				*g_sem;
-sem_t				*g_wr_right;
-
 typedef unsigned long long t_u64;
 
 typedef struct		s_data
@@ -49,6 +44,8 @@ typedef struct		s_data
 	int				time_sleep;
 	int				must_eat;
 	sem_t			*sem_death;
+	sem_t			*sem;
+	sem_t			*wr_right;
 }					t_data;
 
 typedef struct		s_id
