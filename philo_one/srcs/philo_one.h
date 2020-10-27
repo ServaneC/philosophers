@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 10:55:02 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 10:30:41 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct		s_data
 	int					time_sleep;
 	int					must_eat;
 	pthread_mutex_t		wr_right;
-	pthread_t			*threads;
 	pthread_mutex_t		*mutex;
 	int					*forks;
 }					t_data;
@@ -47,7 +46,7 @@ typedef struct		s_data
 typedef struct		s_id
 {
 	t_data			*data;
-	int				nb_meals;
+	pthread_t		thread;
 	int				philo_id;
 	int				left_frk;
 	int				right_frk;

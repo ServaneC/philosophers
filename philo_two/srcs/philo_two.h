@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 10:35:46 by schene            #+#    #+#             */
-/*   Updated: 2020/10/26 11:24:25 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 12:31:18 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ typedef struct		s_data
 	int				must_eat;
 	sem_t			*wr_right;
 	sem_t			*sem;
-	pthread_t		*threads;
 }					t_data;
 
 typedef struct		s_id
 {
 	t_data			*data;
-	int				nb_meals;
 	int				philo_id;
+	pthread_t		thread;
 }					t_id;
 
 void				ft_putstr(char *str);

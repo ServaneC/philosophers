@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/26 10:56:34 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 12:28:24 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static t_u64	philo_eat(t_id *id)
 	pthread_mutex_unlock(&id->data->mutex[id->right_frk]);
 	id->data->forks[id->left_frk] = 0;
 	pthread_mutex_unlock(&id->data->mutex[id->left_frk]);
-	print_state(id, SLEEP);
-	usleep(id->data->time_sleep);
 	return (start_meal);
 }
 
@@ -42,8 +40,10 @@ void			*philo_life(void *arg)
 {
 	t_id	*id;
 	t_u64	last_meal;
+	int		nb_meals;
 
 	id = (t_id *)arg;
+	nb_meals = 0;
 	last_meal = get_time_ms();
 	while (timestamp_ms(last_meal) < id->data->time_die && !(g_death))
 	{
@@ -51,8 +51,10 @@ void			*philo_life(void *arg)
 		{
 			taking_forks(id);
 			last_meal = philo_eat(id);
-			if (++id->nb_meals == id->data->must_eat)
+			if (++nb_meals == id->data->must_eat)
 				return (NULL);
+			print_state(id, SLEEP);
+			usleep(id->data->time_sleep);
 			print_state(id, THINK);
 		}
 	}

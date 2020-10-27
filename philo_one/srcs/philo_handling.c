@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 11:10:05 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 10:29:50 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void			set_data(t_data *data, char **av)
 	pthread_mutex_init(&data->wr_right, NULL);
 	while (++i < ft_atoi(av[1]))
 	{
-		memset(&data->threads[i], 0, sizeof(data->threads));
 		memset(&data->mutex[i], 0, sizeof(*data->mutex));
 		memset(&data->forks[i], 0, sizeof(data->forks));
 		pthread_mutex_init(&data->mutex[i], NULL);
@@ -66,8 +65,6 @@ t_data			*init_data(int ac, char **av)
 	if (!(data = malloc(sizeof(*data))))
 		return (NULL);
 	memset(data, 0, sizeof(*data));
-	if (!(data->threads = malloc(sizeof(*data->threads) * (nb_philo + 1))))
-		return (NULL);
 	if (!(data->mutex = malloc(sizeof(*data->mutex) * (nb_philo + 1))))
 		return (NULL);
 	if (!(data->forks = malloc(sizeof(*data->forks) * (nb_philo + 1))))
@@ -86,7 +83,6 @@ t_id			*init_id(t_data *data, int id_philo)
 	memset(id, 0, sizeof(*id));
 	id->data = data;
 	id->philo_id = id_philo;
-	id->nb_meals = 0;
 	id->left_frk = id_philo - 1;
 	id->right_frk = id_philo - 2;
 	if (id_philo == 1)

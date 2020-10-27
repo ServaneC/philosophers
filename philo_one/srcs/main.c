@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 12:18:52 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 11:02:24 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	clean_end(t_id **id_tab, t_data *data)
 	}
 	free(data->forks);
 	free(data->mutex);
-	free(data->threads);
 	free(data);
 	if (id_tab)
 		free(id_tab);
@@ -38,11 +37,10 @@ static int	th_start_join(t_id **id_tab)
 
 	i = -1;
 	while (++i < id_tab[0]->data->nb_philo)
-		pthread_create(&id_tab[i]->data->threads[i], NULL,
-			philo_life, id_tab[i]);
+		pthread_create(&id_tab[i]->thread, NULL, philo_life, id_tab[i]);
 	i = -1;
 	while (++i < id_tab[0]->data->nb_philo)
-		pthread_join(id_tab[i]->data->threads[i], NULL);
+		pthread_join(id_tab[i]->thread, NULL);
 	if (!g_death)
 		print_state(id_tab[0], END);
 	return (1);
