@@ -6,11 +6,15 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:08:03 by schene            #+#    #+#             */
-/*   Updated: 2020/10/26 14:41:19 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:18:31 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
+
+extern int		g_forks;
+extern sem_t	*g_sem;
+extern sem_t	*g_wr_right;
 
 static int		check_av(int ac, char **av)
 {
@@ -32,13 +36,13 @@ void			set_data(t_data *data, char **av, int nb_philo)
 	int		i;
 
 	i = -1;
-	memset(&data->wr_right, 0, sizeof(data->wr_right));
-	g_forks = nb_philo;
 	sem_unlink("/wr_right");
 	sem_unlink("/forks");
-	data->wr_right = NULL;
-	data->wr_right = sem_open("/wr_right", O_CREAT | O_EXCL, 0600, 1);
-	data->sem = sem_open("/forks", O_CREAT | O_EXCL, 0600, nb_philo);
+	sem_unlink("/death");
+	g_wr_right = sem_open("/wr_right", O_CREAT | O_EXCL, 0600, 1);
+	g_sem = sem_open("/forks", O_CREAT | O_EXCL, 0600, nb_philo);
+	data->sem_death = sem_open("/death", O_CREAT | O_EXCL, 0600, 0);
+	g_forks = nb_philo;
 	data->start = 0;
 	data->nb_philo = nb_philo;
 	data->time_die = ft_atoi(av[2]);
@@ -64,4 +68,18 @@ t_data			*init_data(int ac, char **av)
 	memset(data, 0, sizeof(*data));
 	set_data(data, av, nb_philo);
 	return (data);
+}
+
+t_id			*init_id(t_data *data, int id_philo)
+{
+	t_id	*id;
+
+	id = NULL;
+	if (!(id = malloc(sizeof(*id))))
+		return (NULL);
+	memset(id, 0, sizeof(*id));
+	id->data = data;
+	id->philo_id = id_philo;
+	id->thread = 0;
+	return (id);
 }

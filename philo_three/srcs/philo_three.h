@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:57:26 by schene            #+#    #+#             */
-/*   Updated: 2020/10/26 15:33:46 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/27 13:19:48 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 
 int					g_death;
 int					g_forks;
+sem_t				*g_sem;
+sem_t				*g_wr_right;
 
 typedef unsigned long long t_u64;
 
@@ -46,9 +48,19 @@ typedef struct		s_data
 	int				time_eat;
 	int				time_sleep;
 	int				must_eat;
-	sem_t			*wr_right;
-	sem_t			*sem;
+	sem_t			*sem_death;
 }					t_data;
+
+typedef struct		s_id
+{
+	t_data			*data;
+	pid_t			pid;
+	int				philo_id;
+	int				limit;
+	t_u64			last_meal;
+	pthread_t		thread;
+	int				is_eating;
+}					t_id;
 
 void				ft_putstr(char *str);
 int					ft_strlen(char *str);
@@ -58,8 +70,11 @@ int					timestamp_ms(t_u64 start);
 t_u64				get_time_ms(void);
 int					is_all_digit(char *str);
 int					print_error(void);
-void				*print_state(t_data *data, int philo_id, int action);
+void				*print_state(t_id *id, int action);
 t_data				*init_data(int ac, char **av);
-void				*philo_life(t_data *data, int philo_id);
+t_id				*init_id(t_data *data, int id_philo);
+void				*philo_life(void *arg);
+int					exec_philo(t_id *id);
+void				*monitor(void *arg);
 
 #endif
