@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time_management.c                                  :+:      :+:    :+:   */
+/*   sem.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/26 12:28:21 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 15:08:33 by schene           ###   ########.fr       */
+/*   Created: 2020/10/28 15:10:33 by schene            #+#    #+#             */
+/*   Updated: 2020/10/28 15:13:14 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-int			timestamp_ms(t_u64 start)
+sem_t	*ft_sem_open(char const *name, int value)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((((1000000 * tv.tv_sec) + tv.tv_usec) - start) / 1000);
+	return (sem_open(name, O_CREAT | O_EXCL, 0644, value));
 }
 
-t_u64		get_time_ms(void)
+char	*make_semaphore_name(char const *base, char *buffer, int position)
 {
-	struct timeval	tv;
+	int	i;
 
-	gettimeofday(&tv, NULL);
-	return ((1000000 * tv.tv_sec) + tv.tv_usec);
-}
-
-t_u64		get_time(void)
-{
-	static struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * (t_u64)1000) + (tv.tv_usec / 1000));
+	i = ft_strcpy(buffer, base);
+	while (position > 0)
+	{
+		buffer[i++] = (position % 10) + '0';
+		position /= 10;
+	}
+	buffer[i] = 0;
+	return (buffer);
 }

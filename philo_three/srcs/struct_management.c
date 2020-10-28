@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:08:03 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 14:27:17 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 15:10:55 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,7 @@ static int		check_av(int ac, const char **av)
 	return (1);
 }
 
-sem_t	*ft_sem_open(char const *name, int value)
-{
-	return (sem_open(name, O_CREAT | O_EXCL, 0644, value));
-}
-
-char	*make_semaphore_name(char const *base, char *buffer, int position)
-{
-	int	i;
-
-	i = ft_strcpy(buffer, base);
-	while (position > 0)
-	{
-		buffer[i++] = (position % 10) + '0';
-		position /= 10;
-	}
-	buffer[i] = 0;
-	return (buffer);
-}
-
-static int	init_sems(t_data *data)
+static int		init_sems(t_data *data)
 {
 	sem_unlink(SEM_FORKS);
 	sem_unlink(SEM_WR);
@@ -60,7 +41,7 @@ static int	init_sems(t_data *data)
 	return (0);
 }
 
-static int	init_id(t_data *data)
+static int		init_id(t_data *data)
 {
 	int		i;
 	char	semaphore[250];
@@ -84,7 +65,7 @@ static int	init_id(t_data *data)
 	return (0);
 }
 
-int		data_init(t_data *data, int ac, char const **av)
+int				data_init(t_data *data, int ac, char const **av)
 {
 	if (!check_av(ac, av))
 		return (1);
@@ -109,56 +90,3 @@ int		data_init(t_data *data, int ac, char const **av)
 		return (1);
 	return (init_sems(data));
 }
-
-// void			set_data(t_data *data, char **av, int nb_philo)
-// {
-// 	int		i;
-
-// 	i = -1;
-// 	sem_unlink("/wr_right");
-// 	sem_unlink("/forks");
-// 	sem_unlink("/death");
-// 	data->wr_right = sem_open("/wr_right", O_CREAT | O_EXCL, 0600, 1);
-// 	data->sem = sem_open("/forks", O_CREAT | O_EXCL, 0600, nb_philo);
-// 	data->sem_death = sem_open("/death", O_CREAT | O_EXCL, 0600, 0);
-// 	data->start = 0;
-// 	data->nb_philo = nb_philo;
-// 	data->time_die = ft_atoi(av[2]);
-// 	data->time_eat = ft_atoi(av[3]) * 1000;
-// 	data->time_sleep = ft_atoi(av[4]) * 1000;
-// 	if (av[5])
-// 		data->must_eat = ft_atoi(av[5]);
-// }
-
-// t_data			*init_data(int ac, char **av)
-// {
-// 	t_data		*data;
-// 	int			nb_philo;
-
-// 	data = NULL;
-// 	if (!check_av(ac, av))
-// 		return (NULL);
-// 	nb_philo = ft_atoi(av[1]);
-// 	if ((av[5] && (ft_atoi(av[5]) == 0)) || nb_philo < 2)
-// 		return (NULL);
-// 	if (!(data = malloc(sizeof(*data))))
-// 		return (NULL);
-// 	memset(data, 0, sizeof(*data));
-// 	set_data(data, av, nb_philo);
-// 	return (data);
-// }
-
-// t_id			*init_id(t_data *data, int id_philo)
-// {
-// 	t_id	*id;
-
-// 	id = NULL;
-// 	if (!(id = malloc(sizeof(*id))))
-// 		return (NULL);
-// 	memset(id, 0, sizeof(*id));
-// 	id->data = data;
-// 	id->philo_id = id_philo;
-// 	sem_unlink("/sem_philo");
-// 	id->sem_philo = sem_open("/sem_philo", O_CREAT | O_EXCL, 0600, 1);
-// 	return (id);
-// }

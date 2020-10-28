@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:57:26 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 14:45:41 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 15:11:12 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 
 typedef unsigned long long t_u64;
 
-struct 				s_id;
+struct s_id;
 
 typedef struct		s_data
 {
@@ -86,7 +86,9 @@ void				print_state(t_id *id, int action);
 int					data_init(t_data *data, int ac, char const **av);
 void				*philo_life(void *arg);
 int					exec_philo(t_id *id);
-char				*make_semaphore_name(char const *base, char *buffer, int position);
+char				*make_semaphore_name(char const *base,
+	char *buffer, int position);
 void				*monitor(void *arg);
+sem_t				*ft_sem_open(char const *name, int value);
 int					start_monitor_thread(t_data *data);
 #endif

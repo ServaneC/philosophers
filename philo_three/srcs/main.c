@@ -6,13 +6,13 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:56:35 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 14:52:04 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 15:07:39 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-static int	clean_end(t_data *data)
+static int		clean_end(t_data *data)
 {
 	int		i;
 	char	semaphore[250];
@@ -59,7 +59,7 @@ static int		start_process(t_data *data)
 	return (0);
 }
 
-int			main(int ac, char const **av)
+int				main(int ac, char const **av)
 {
 	t_data		data;
 	int			i;

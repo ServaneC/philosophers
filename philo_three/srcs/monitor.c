@@ -6,33 +6,11 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:56:36 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 14:43:36 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 15:07:53 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
-
-// void
-// 	*monitor(void *philo_v)
-// {
-// 	t_philo		*philo;
-
-// 	philo = (t_philo*)philo_v;
-// 	while (1)
-// 	{
-// 		sem_wait(philo->mutex);
-// 		if (!philo->is_eating && get_time() > philo->limit)
-// 		{
-// 			display_message(philo, TYPE_DIED);
-// 			sem_post(philo->mutex);
-// 			sem_post(philo->state->somebody_dead_m);
-// 			return ((void*)0);
-// 		}
-// 		sem_post(philo->mutex);
-// 		usleep(1000);
-// 	}
-// 	return ((void*)0);
-// }
 
 void	*monitor(void *arg)
 {
