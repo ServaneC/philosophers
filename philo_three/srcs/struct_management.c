@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:08:03 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 15:10:55 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:42:09 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,21 @@ static int		init_id(t_data *data)
 	int		i;
 	char	semaphore[250];
 
-	i = 0;
-	while (i < data->nb_philo)
+	i = -1;
+	while (++i < data->nb_philo)
 	{
 		data->id[i].is_eating = 0;
 		data->id[i].philo_id = i;
 		data->id[i].data = data;
-		make_semaphore_name(SEM_PHILO, (char*)semaphore, i);
+		data->id[i].nb_meals = 0;
+		sem_name(SEM_PHILO, (char*)semaphore, i);
 		sem_unlink(semaphore);
 		if ((data->id[i].philo_s = ft_sem_open(semaphore, 1)) < 0)
 			return (1);
-		make_semaphore_name(SEM_MUST_EAT, (char*)semaphore, i);
+		sem_name(SEM_MUST_EAT, (char*)semaphore, i);
 		sem_unlink(semaphore);
-		if ((data->id[i].must_eat_s = ft_sem_open(semaphore, 0)) < 0)
+		if ((data->id[i].eat_sem = ft_sem_open(semaphore, 0)) < 0)
 			return (1);
-		i++;
 	}
 	return (0);
 }

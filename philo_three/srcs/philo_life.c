@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:25:45 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 18:02:36 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:31:36 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void		philo_eat(t_id *id)
 	id->nb_meals++;
 	id->is_eating = 0;
 	sem_post(id->philo_s);
-	sem_post(id->must_eat_s);
+	sem_post(id->eat_sem);
 }
 
 static void		philo_sleep(t_id *id)

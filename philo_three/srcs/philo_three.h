@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:57:26 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 18:01:07 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:42:27 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define SEM_DEATH "/death_sem"
 # define SEM_WR_DEATH "/wr_dead"
 # define SEM_PHILO "/philo_sem"
-# define SEM_MUST_EAT "/must_eat_sem"
+# define SEM_MUST_EAT "/eat_sem"
 
 typedef unsigned long long t_u64;
 
@@ -69,7 +69,7 @@ typedef struct		s_id
 	t_data			*data;
 	int				nb_meals;
 	sem_t			*philo_s;
-	sem_t			*must_eat_s;
+	sem_t			*eat_sem;
 }					t_id;
 
 void				ft_putstr(char *str);
@@ -86,8 +86,7 @@ void				print_state(t_id *id, int action);
 int					data_init(t_data *data, int ac, char const **av);
 void				*philo_life(void *arg);
 int					exec_philo(t_id *id);
-char				*make_semaphore_name(char const *base,
-	char *buffer, int position);
+char				*sem_name(char const *base, char *buffer, int position);
 void				*monitor(void *arg);
 sem_t				*ft_sem_open(char const *name, int value);
 int					start_monitor_thread(t_data *data);

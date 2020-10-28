@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 17:43:21 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:27:22 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define END 5
 
 typedef unsigned long long t_u64;
-
 struct s_id;
 
 typedef struct			s_data
