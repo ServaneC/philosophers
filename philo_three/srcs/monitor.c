@@ -6,11 +6,33 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:56:36 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 13:45:25 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 14:43:36 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
+
+// void
+// 	*monitor(void *philo_v)
+// {
+// 	t_philo		*philo;
+
+// 	philo = (t_philo*)philo_v;
+// 	while (1)
+// 	{
+// 		sem_wait(philo->mutex);
+// 		if (!philo->is_eating && get_time() > philo->limit)
+// 		{
+// 			display_message(philo, TYPE_DIED);
+// 			sem_post(philo->mutex);
+// 			sem_post(philo->state->somebody_dead_m);
+// 			return ((void*)0);
+// 		}
+// 		sem_post(philo->mutex);
+// 		usleep(1000);
+// 	}
+// 	return ((void*)0);
+// }
 
 void	*monitor(void *arg)
 {
@@ -19,13 +41,49 @@ void	*monitor(void *arg)
 	id = (t_id *)arg;
 	while (1)
 	{
-		if (!id->is_eating && timestamp_ms(id->last_meal) > id->data->time_die)
+		sem_wait(id->philo_s);
+		if (!id->is_eating && get_time() > id->limit)
 		{
 			print_state(id, DEAD);
-			sem_post(id->data->sem_death);
+			sem_post(id->philo_s);
+			sem_post(id->data->death_s);
 			return ((void*)0);
 		}
+		sem_post(id->philo_s);
 		usleep(1000);
 	}
 	return ((void*)0);
+}
+
+void	*monitor_count(void *arg)
+{
+	t_data	*data;
+	int		total;
+	int		i;
+
+	data = (t_data*)arg;
+	total = 0;
+	while (total < data->must_eat)
+	{
+		i = -1;
+		while (++i < data->nb_philo)
+			sem_wait(data->id[i].must_eat_s);
+		total++;
+	}
+	print_state(&data->id[0], END);
+	sem_post(data->death_s);
+	return ((void*)0);
+}
+
+int		start_monitor_thread(t_data *data)
+{
+	pthread_t	tid;
+
+	if (data->must_eat > 0)
+	{
+		if (pthread_create(&tid, NULL, &monitor_count, (void*)data) != 0)
+			return (1);
+		pthread_detach(tid);
+	}
+	return (0);
 }

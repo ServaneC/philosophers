@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 12:00:00 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 13:51:10 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 14:32:34 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,16 @@ char	*action_message(int action)
 	return (" died\n");
 }
 
-void	*print_state(t_id *id, int action)
+void	print_state(t_id *id, int action)
 {
-	static int	end;
-
 	sem_wait(id->data->wr_right);
-	if (!end)
-	{
-		ft_putnbr(timestamp_ms(id->data->start));
-		write(1, " ", 1);
-		if (action != END)
-			ft_putnbr(id->philo_id);
-		if (action >= DEAD)
-			end++;
-		write(1, action_message(action), ft_strlen(action_message(action)));
-	}
+	sem_wait(id->data->wr_dead);
+	ft_putnbr(timestamp_ms(id->data->start));
+	write(1, " ", 1);
+	if (action != END)
+		ft_putnbr(id->philo_id + 1);
+	write(1, action_message(action), ft_strlen(action_message(action)));
+	if (action < DEAD)
+		sem_post(id->data->wr_dead);
 	sem_post(id->data->wr_right);
-	return (NULL);
 }

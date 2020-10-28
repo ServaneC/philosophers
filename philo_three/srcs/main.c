@@ -6,69 +6,72 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:56:35 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 13:50:39 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 14:52:04 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-static int	clean_end(t_id **id_tab, t_data *data)
-{
-	int			i;
-
-	i = -1;
-	sem_close(data->wr_right);
-	sem_unlink("/wr_right");
-	sem_close(data->sem);
-	sem_unlink("/forks");
-	sem_close(data->sem_death);
-	while (++i < data->nb_philo && id_tab)
-		free(id_tab[i]);
-	free(data);
-	if (id_tab)
-		free(id_tab);
-	return (1);
-}
-
-static int	fork_and_wait(t_id **id_tab, t_data *data)
+static int	clean_end(t_data *data)
 {
 	int		i;
+	char	semaphore[250];
 
-	i = -1;
-	while (++i < data->nb_philo)
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_WR);
+	sem_unlink(SEM_DEATH);
+	sem_unlink(SEM_WR_DEATH);
+	if (data->id)
 	{
-		id_tab[i]->pid = fork();
-		if (id_tab[i]->pid == -1)
-			return (clean_end(id_tab, data));
-		else if (id_tab[i]->pid == 0)
+		i = 0;
+		while (i < data->nb_philo)
 		{
-			exec_philo(id_tab[i]);
-			exit(0);
+			make_semaphore_name(SEM_PHILO, (char*)semaphore, i);
+			sem_unlink(semaphore);
+			make_semaphore_name(SEM_MUST_EAT, (char*)semaphore, i++);
+			sem_unlink(semaphore);
 		}
-		usleep(100);
+		free(data->id);
 	}
 	return (1);
 }
 
-int			main(int ac, char **av)
+static int		start_process(t_data *data)
 {
-	t_data		*data;
-	t_id		**id_tab;
+	int			i;
+	void		*philo;
+
+	data->start = get_time_ms();
+	i = -1;
+	while (++i < data->nb_philo)
+	{
+		philo = (void*)(&data->id[i]);
+		data->id[i].pid = fork();
+		if (data->id[i].pid < 0)
+			return (1);
+		else if (data->id[i].pid == 0)
+		{
+			exec_philo(&data->id[i]);
+			exit(0);
+		}
+		usleep(100);
+	}
+	return (0);
+}
+
+int			main(int ac, char const **av)
+{
+	t_data		data;
 	int			i;
 
+	if (data_init(&data, ac, av)
+		|| start_monitor_thread(&data)
+		|| start_process(&data))
+		return (clean_end(&data));
+	sem_wait(data.death_s);
 	i = -1;
-	if ((data = init_data(ac, av)) == NULL)
-		return (0);
-	if (!(id_tab = malloc(sizeof(t_id) * data->nb_philo)))
-		return (clean_end(NULL, data));
-	while (++i < data->nb_philo)
-		if ((id_tab[i] = init_id(data, i + 1)) == NULL)
-			return (clean_end(id_tab, data));
-	data->start = get_time_ms();
-	fork_and_wait(id_tab, data);
-	sem_wait(data->sem_death);
-	i = -1;
-	while (++i < data->nb_philo)
-		kill(id_tab[i]->pid, SIGKILL);
-	return (clean_end(id_tab, data));
+	while (++i < data.nb_philo)
+		kill(data.id[i].pid, SIGKILL);
+	clean_end(&data);
+	return (0);
 }
