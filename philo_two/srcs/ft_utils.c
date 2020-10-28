@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:17:35 by schene            #+#    #+#             */
-/*   Updated: 2020/10/22 14:17:07 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:52:03 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,18 @@ int		is_all_digit(char *str)
 	if (i == 0)
 		return (0);
 	return (1);
+}
+
+int		ft_strcpy(char *dest, char *src)
+{
+	int i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (i);
 }
