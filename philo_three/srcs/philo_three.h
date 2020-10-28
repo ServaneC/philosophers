@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:57:26 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 15:34:37 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:01:07 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ struct s_id;
 typedef struct		s_data
 {
 	int				nb_philo;
-	int				time_die;
-	int				time_eat;
-	int				time_sleep;
+	t_u64			time_die;
+	t_u64			time_eat;
+	t_u64			time_sleep;
 	int				must_eat;
 	t_u64			start;
 	struct s_id		*id;
@@ -65,6 +65,7 @@ typedef struct		s_id
 	int				philo_id;
 	int				is_eating;
 	t_u64			last_meal;
+	t_u64			limit;
 	t_data			*data;
 	int				nb_meals;
 	sem_t			*philo_s;
