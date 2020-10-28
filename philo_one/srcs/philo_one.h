@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 11:35:57 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 10:30:41 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 17:43:21 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 # define DEAD 4
 # define END 5
 
-int					g_death;
-
 typedef unsigned long long t_u64;
 
-typedef struct		s_data
+struct s_id;
+
+typedef struct			s_data
 {
 	t_u64				start;
 	int					nb_philo;
@@ -38,31 +38,36 @@ typedef struct		s_data
 	int					time_eat;
 	int					time_sleep;
 	int					must_eat;
+	struct s_id			*id;
 	pthread_mutex_t		wr_right;
-	pthread_mutex_t		*mutex;
-	int					*forks;
-}					t_data;
+	pthread_mutex_t		death_mtx;
+	pthread_mutex_t		*fork_m;
+}						t_data;
 
-typedef struct		s_id
+typedef struct			s_id
 {
-	t_data			*data;
-	pthread_t		thread;
-	int				philo_id;
-	int				left_frk;
-	int				right_frk;
-}					t_id;
+	int					philo_id;
+	int					is_eating;
+	t_u64				last_meal;
+	int					nb_meals;
+	t_data				*data;
+	int					left_frk;
+	int					right_frk;
+	pthread_mutex_t		philo_mtx;
+	pthread_mutex_t		eat_mtx;
+}						t_id;
 
-void				ft_putstr(char *str);
-int					ft_strlen(char *str);
-void				ft_putnbr(int nb);
-int					ft_atoi(const char *str);
-t_data				*init_data(int ac, char **av);
-t_id				*init_id(t_data *data, int id);
-int					timestamp_ms(t_u64 start);
-t_u64				get_time_ms(void);
-void				*philo_life(void *arg);
-void				*print_state(t_id *id, int action);
-int					is_all_digit(char *str);
-int					print_error(void);
+void					ft_putstr(char *str);
+int						ft_strlen(char *str);
+void					ft_putnbr(int nb);
+int						ft_atoi(const char *str);
+int						init_data(t_data *data, int ac, char **av);
+int						timestamp_ms(t_u64 start);
+t_u64					get_time_ms(void);
+t_u64					get_time(void);
+void					*philo_life(void *arg);
+void					print_state(t_id *id, int action);
+int						is_all_digit(char *str);
+int						print_error(void);
 
 #endif

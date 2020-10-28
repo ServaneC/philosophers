@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 13:25:39 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 10:29:50 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 17:42:52 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,68 +24,65 @@ static int		check_av(int ac, char **av)
 		if (!is_all_digit(av[i]))
 			return (print_error());
 	}
-	return (1);
+	return (0);
 }
 
-void			set_data(t_data *data, char **av)
+static int		init_mutex(t_data *data)
+{
+	int		i;
+
+	pthread_mutex_init(&data->death_mtx, NULL);
+	pthread_mutex_init(&data->wr_right, NULL);
+	pthread_mutex_lock(&data->death_mtx);
+	if (!(data->fork_m =
+		(pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * data->nb_philo)))
+		return (1);
+	i = -1;
+	while (++i < data->nb_philo)
+		pthread_mutex_init(&data->fork_m[i], NULL);
+	return (0);
+}
+
+static void		init_id(t_data *data)
 {
 	int		i;
 
 	i = -1;
-	memset(&data->wr_right, 0, sizeof(data->wr_right));
-	pthread_mutex_init(&data->wr_right, NULL);
-	while (++i < ft_atoi(av[1]))
+	while (++i < data->nb_philo)
 	{
-		memset(&data->mutex[i], 0, sizeof(*data->mutex));
-		memset(&data->forks[i], 0, sizeof(data->forks));
-		pthread_mutex_init(&data->mutex[i], NULL);
+		data->id[i].is_eating = 0;
+		data->id[i].philo_id = i;
+		data->id[i].left_frk = i;
+		data->id[i].right_frk = (i + 1) % data->nb_philo;
+		data->id[i].nb_meals = 0;
+		data->id[i].data = data;
+		pthread_mutex_init(&data->id[i].philo_mtx, NULL);
+		pthread_mutex_init(&data->id[i].eat_mtx, NULL);
+		pthread_mutex_lock(&data->id[i].eat_mtx);
 	}
-	data->start = 0;
+}
+
+int				init_data(t_data *data, int ac, char **av)
+{
+	if (check_av(ac, av))
+		return (1);
 	data->nb_philo = ft_atoi(av[1]);
 	data->time_die = ft_atoi(av[2]);
-	data->time_eat = ft_atoi(av[3]) * 1000;
-	data->time_sleep = ft_atoi(av[4]) * 1000;
-	if (av[5])
+	data->time_eat = ft_atoi(av[3]);
+	data->time_sleep = ft_atoi(av[4]);
+	data->must_eat = 0;
+	if (ac == 6)
 		data->must_eat = ft_atoi(av[5]);
-}
-
-t_data			*init_data(int ac, char **av)
-{
-	t_data		*data;
-	int			nb_philo;
-
-	data = NULL;
-	if (!check_av(ac, av))
-		return (NULL);
-	nb_philo = ft_atoi(av[1]);
-	if (av[5] && (ft_atoi(av[5]) == 0))
-		return (NULL);
-	else if (ft_atoi(av[1]) < 2)
-		return (NULL);
-	if (!(data = malloc(sizeof(*data))))
-		return (NULL);
-	memset(data, 0, sizeof(*data));
-	if (!(data->mutex = malloc(sizeof(*data->mutex) * (nb_philo + 1))))
-		return (NULL);
-	if (!(data->forks = malloc(sizeof(*data->forks) * (nb_philo + 1))))
-		return (NULL);
-	set_data(data, av);
-	return (data);
-}
-
-t_id			*init_id(t_data *data, int id_philo)
-{
-	t_id	*id;
-
-	id = NULL;
-	if (!(id = malloc(sizeof(*id))))
-		return (NULL);
-	memset(id, 0, sizeof(*id));
-	id->data = data;
-	id->philo_id = id_philo;
-	id->left_frk = id_philo - 1;
-	id->right_frk = id_philo - 2;
-	if (id_philo == 1)
-		id->right_frk = data->nb_philo - 1;
-	return (id);
+	if (data->nb_philo < 2 || data->nb_philo > 200 || data->time_die < 60
+		|| data->time_eat < 60 || data->time_sleep < 60
+		|| data->must_eat < 0)
+		return (1);
+	data->time_eat *= 1000;
+	data->time_sleep *= 1000;
+	data->fork_m = NULL;
+	data->id = NULL;
+	if (!(data->id = (t_id *)malloc(sizeof(*(data->id)) * data->nb_philo)))
+		return (1);
+	init_id(data);
+	return (init_mutex(data));
 }

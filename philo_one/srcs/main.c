@@ -6,61 +6,92 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/13 10:47:14 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 11:02:24 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 17:42:08 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-static int	clean_end(t_id **id_tab, t_data *data)
+static int		clean_end(t_data *data)
 {
 	int			i;
 
 	i = -1;
-	pthread_mutex_destroy(&data->wr_right);
-	while (++i < data->nb_philo && id_tab)
+	if (data->fork_m)
 	{
-		pthread_mutex_destroy(&id_tab[i]->data->mutex[i]);
-		free(id_tab[i]);
+		while (++i < data->nb_philo)
+			pthread_mutex_destroy(&data->fork_m[i]);
+		free(data->fork_m);
 	}
-	free(data->forks);
-	free(data->mutex);
-	free(data);
-	if (id_tab)
-		free(id_tab);
+	i = -1;
+	if (data->id)
+	{
+		while (++i < data->nb_philo)
+		{
+			pthread_mutex_destroy(&data->id[i].eat_mtx);
+			pthread_mutex_destroy(&data->id[i].philo_mtx);
+		}
+		free(data->id);
+	}
+	pthread_mutex_destroy(&data->wr_right);
+	pthread_mutex_destroy(&data->death_mtx);
 	return (1);
 }
 
-static int	th_start_join(t_id **id_tab)
+static void		*monitor_count(void *arg)
 {
+	t_data	*data;
 	int		i;
+	int		total;
 
-	i = -1;
-	while (++i < id_tab[0]->data->nb_philo)
-		pthread_create(&id_tab[i]->thread, NULL, philo_life, id_tab[i]);
-	i = -1;
-	while (++i < id_tab[0]->data->nb_philo)
-		pthread_join(id_tab[i]->thread, NULL);
-	if (!g_death)
-		print_state(id_tab[0], END);
-	return (1);
+	data = (t_data*)arg;
+	total = 0;
+	while (total < data->must_eat)
+	{
+		i = -1;
+		while (++i < data->nb_philo)
+			pthread_mutex_lock(&data->id[i].eat_mtx);
+		total++;
+	}
+	print_state(&data->id[0], END);
+	pthread_mutex_unlock(&data->death_mtx);
+	return ((void*)0);
 }
 
-int			main(int ac, char **av)
+static int		start_threads(t_data *data)
 {
-	t_data		*data;
-	t_id		**id_tab;
 	int			i;
+	pthread_t	tid;
+	void		*philo;
 
-	i = -1;
-	if ((data = init_data(ac, av)) == NULL)
-		return (0);
-	if (!(id_tab = malloc(sizeof(t_id) * data->nb_philo)))
-		return (clean_end(NULL, data));
-	while (++i < data->nb_philo)
-		if ((id_tab[i] = init_id(data, i + 1)) == NULL)
-			return (clean_end(id_tab, data));
 	data->start = get_time_ms();
-	th_start_join(id_tab);
-	return (clean_end(id_tab, data));
+	if (data->must_eat > 0)
+	{
+		if (pthread_create(&tid, NULL, &monitor_count, (void*)data) != 0)
+			return (1);
+		pthread_detach(tid);
+	}
+	i = -1;
+	while (++i < data->nb_philo)
+	{
+		philo = (void*)(&data->id[i]);
+		if (pthread_create(&tid, NULL, &philo_life, philo) != 0)
+			return (1);
+		pthread_detach(tid);
+		usleep(100);
+	}
+	return (0);
+}
+
+int				main(int ac, char **av)
+{
+	t_data		data;
+
+	if (init_data(&data, ac, av))
+		return (clean_end(&data));
+	if (start_threads(&data))
+		return (clean_end(&data));
+	pthread_mutex_lock(&data.death_mtx);
+	pthread_mutex_unlock(&data.death_mtx);
+	return (clean_end(&data));
 }

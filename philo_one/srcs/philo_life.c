@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/27 12:28:24 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 17:42:56 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,70 @@
 
 static void		taking_forks(t_id *id)
 {
-	id->data->forks[id->right_frk] = 1;
-	id->data->forks[id->left_frk] = 1;
-	pthread_mutex_lock(&id->data->mutex[id->right_frk]);
-	pthread_mutex_lock(&id->data->mutex[id->left_frk]);
+	pthread_mutex_lock(&id->data->fork_m[id->left_frk]);
 	print_state(id, TAKE_FORK);
+	pthread_mutex_lock(&id->data->fork_m[id->right_frk]);
 	print_state(id, TAKE_FORK);
 }
 
-static t_u64	philo_eat(t_id *id)
+static void		philo_eat(t_id *id)
 {
-	t_u64		start_meal;
-
-	start_meal = get_time_ms();
+	pthread_mutex_lock(&id->philo_mtx);
+	id->is_eating = 1;
+	id->last_meal = get_time();
 	print_state(id, EAT);
 	usleep(id->data->time_eat);
-	id->data->forks[id->right_frk] = 0;
-	pthread_mutex_unlock(&id->data->mutex[id->right_frk]);
-	id->data->forks[id->left_frk] = 0;
-	pthread_mutex_unlock(&id->data->mutex[id->left_frk]);
-	return (start_meal);
+	id->nb_meals++;
+	id->is_eating = 0;
+	pthread_mutex_unlock(&id->philo_mtx);
+	pthread_mutex_unlock(&id->eat_mtx);
+}
+
+static void		philo_sleep(t_id *id)
+{
+	print_state(id, SLEEP);
+	pthread_mutex_unlock(&id->data->fork_m[id->left_frk]);
+	pthread_mutex_unlock(&id->data->fork_m[id->right_frk]);
+	usleep(id->data->time_sleep);
+}
+
+void			*monitor(void *arg)
+{
+	t_id		*id;
+
+	id = (t_id *)arg;
+	while (1)
+	{
+		pthread_mutex_lock(&id->philo_mtx);
+		if (!id->is_eating && get_time() > (id->last_meal + id->data->time_die))
+		{
+			print_state(id, DEAD);
+			pthread_mutex_unlock(&id->philo_mtx);
+			pthread_mutex_unlock(&id->data->death_mtx);
+			return ((void*)0);
+		}
+		pthread_mutex_unlock(&id->philo_mtx);
+		usleep(1000);
+	}
 }
 
 void			*philo_life(void *arg)
 {
-	t_id	*id;
-	t_u64	last_meal;
-	int		nb_meals;
+	t_id		*id;
+	pthread_t	thread;
 
 	id = (t_id *)arg;
-	nb_meals = 0;
-	last_meal = get_time_ms();
-	while (timestamp_ms(last_meal) < id->data->time_die && !(g_death))
+	id->last_meal = get_time();
+	thread = 0;
+	if (pthread_create(&thread, NULL, &monitor, arg) != 0)
+		return ((void*)1);
+	pthread_detach(thread);
+	while (1)
 	{
-		if (!id->data->forks[id->right_frk] && !id->data->forks[id->left_frk])
-		{
-			taking_forks(id);
-			last_meal = philo_eat(id);
-			if (++nb_meals == id->data->must_eat)
-				return (NULL);
-			print_state(id, SLEEP);
-			usleep(id->data->time_sleep);
-			print_state(id, THINK);
-		}
+		taking_forks(id);
+		philo_eat(id);
+		philo_sleep(id);
+		print_state(id, THINK);
 	}
-	return (print_state(id, DEAD));
+	return ((void *)0);
 }

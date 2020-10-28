@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 11:28:03 by schene            #+#    #+#             */
-/*   Updated: 2020/10/23 12:33:32 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 16:48:39 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,12 @@ t_u64		get_time_ms(void)
 
 	gettimeofday(&tv, NULL);
 	return ((1000000 * tv.tv_sec) + tv.tv_usec);
+}
+
+t_u64		get_time(void)
+{
+	static struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * (t_u64)1000) + (tv.tv_usec / 1000));
 }
