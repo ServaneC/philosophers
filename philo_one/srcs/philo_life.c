@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 18:27:04 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/29 08:58:28 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			*monitor(void *arg)
 	while (1)
 	{
 		pthread_mutex_lock(&id->philo_mtx);
-		if (!id->is_eating && get_time() > (id->last_meal + id->data->time_die))
+		if (!id->is_eating && (get_time() > (id->last_meal + id->data->time_die)))
 		{
 			print_state(id, DEAD);
 			pthread_mutex_unlock(&id->philo_mtx);

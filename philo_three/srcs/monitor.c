@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:56:36 by schene            #+#    #+#             */
-/*   Updated: 2020/10/29 08:53:01 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/29 09:00:03 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*monitor(void *arg)
 	while (1)
 	{
 		sem_wait(id->philo_s);
-		if (!id->is_eating && get_time() > (id->last_meal + id->data->time_die))
+		if (!id->is_eating && (get_time() > (id->last_meal + id->data->time_die)))
 		{
 			print_state(id, DEAD);
 			sem_post(id->philo_s);
