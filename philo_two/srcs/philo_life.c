@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/16 12:13:37 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 19:07:06 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/29 08:50:29 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void		philo_eat(t_id *id)
 	sem_wait(id->philo_s);
 	id->is_eating = 1;
 	id->last_meal = get_time();
-	id->limit = id->last_meal + id->data->time_die;
 	print_state(id, EAT);
 	usleep(id->data->time_eat);
 	id->nb_meals++;
@@ -50,7 +49,7 @@ void			*monitor(void *arg)
 	while (1)
 	{
 		sem_wait(id->philo_s);
-		if (!id->is_eating && get_time() > id->limit)
+		if (!id->is_eating && get_time() > (id->last_meal + id->data->time_die))
 		{
 			print_state(id, DEAD);
 			sem_post(id->philo_s);
@@ -69,7 +68,6 @@ void			*philo_life(void *arg)
 
 	id = (t_id *)arg;
 	id->last_meal = get_time();
-	id->limit = id->last_meal + id->data->time_die;
 	if (pthread_create(&thread, NULL, &monitor, arg) != 0)
 		return ((void *)1);
 	pthread_detach(thread);

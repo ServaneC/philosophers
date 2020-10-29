@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 12:56:36 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 18:02:26 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/29 08:41:32 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*monitor(void *arg)
 	while (1)
 	{
 		sem_wait(id->philo_s);
-		if (!id->is_eating && get_time() > id->limit)
+		if (!id->is_eating && get_time() > (id->last_meal + id->data->time_die))
 		{
 			print_state(id, DEAD);
 			sem_post(id->philo_s);
@@ -30,7 +30,6 @@ void	*monitor(void *arg)
 		sem_post(id->philo_s);
 		usleep(1000);
 	}
-	return ((void*)0);
 }
 
 void	*monitor_count(void *arg)
@@ -45,7 +44,7 @@ void	*monitor_count(void *arg)
 	{
 		i = -1;
 		while (++i < data->nb_philo)
-			sem_wait(data->id[i].must_eat_s);
+			sem_wait(data->id[i].eat_sem);
 		total++;
 	}
 	print_state(&data->id[0], END);

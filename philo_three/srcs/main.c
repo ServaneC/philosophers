@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 11:56:35 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 15:07:39 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 18:42:09 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int		clean_end(t_data *data)
 		i = 0;
 		while (i < data->nb_philo)
 		{
-			make_semaphore_name(SEM_PHILO, (char*)semaphore, i);
+			sem_name(SEM_PHILO, (char*)semaphore, i);
 			sem_unlink(semaphore);
-			make_semaphore_name(SEM_MUST_EAT, (char*)semaphore, i++);
+			sem_name(SEM_MUST_EAT, (char*)semaphore, i++);
 			sem_unlink(semaphore);
 		}
 		free(data->id);

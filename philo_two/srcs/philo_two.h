@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 10:35:46 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 19:12:21 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/29 08:50:32 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct		s_id
 	int				philo_id;
 	int				is_eating;
 	t_u64			last_meal;
-	t_u64			limit;
 	t_data			*data;
 	int				nb_meals;
 	sem_t			*philo_s;

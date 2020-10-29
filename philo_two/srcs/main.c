@@ -6,7 +6,7 @@
 /*   By: schene <schene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:09:50 by schene            #+#    #+#             */
-/*   Updated: 2020/10/28 19:12:49 by schene           ###   ########.fr       */
+/*   Updated: 2020/10/28 19:17:18 by schene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int		start_threads(t_data *data)
 	return (0);
 }
 
-int			main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_data		data;
 	int			i;
