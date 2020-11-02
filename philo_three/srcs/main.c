@@ -17,15 +17,13 @@ static int		clean_end(t_data *data)
 	int		i;
 	char	semaphore[250];
 
-	sem_unlink(SEM_FORKS);
-	sem_unlink(SEM_WR);
-	sem_unlink(SEM_DEATH);
-	sem_unlink(SEM_WR_DEATH);
 	if (data->id)
 	{
 		i = 0;
 		while (i < data->nb_philo)
 		{
+			sem_close(data->id[i].eat_sem);
+			sem_close(data->id[i].philo_s);
 			sem_name(SEM_PHILO, (char*)semaphore, i);
 			sem_unlink(semaphore);
 			sem_name(SEM_MUST_EAT, (char*)semaphore, i++);
@@ -33,6 +31,10 @@ static int		clean_end(t_data *data)
 		}
 		free(data->id);
 	}
+	sem_close(data->forks_s);
+	sem_close(data->wr_right);
+	sem_close(data->death_s);
+	sem_close(data->wr_dead);
 	return (1);
 }
 
@@ -75,5 +77,9 @@ int				main(int ac, char **av)
 	while (++i < data.nb_philo)
 		kill(data.id[i].pid, SIGKILL);
 	clean_end(&data);
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_WR);
+	sem_unlink(SEM_DEATH);
+	sem_unlink(SEM_WR_DEATH);
 	return (0);
 }
