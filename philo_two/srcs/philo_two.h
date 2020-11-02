@@ -73,11 +73,12 @@ int					timestamp_ms(t_u64 start);
 t_u64				get_time_ms(void);
 t_u64				get_time(void);
 int					is_all_digit(char *str);
-int					print_error(void);
-int					init_data(t_data *data, int ac, char **av);
+int					print_error(char *message1, int nb, char *message2);
+int					init_data(t_data *data, char **av);
 void				print_state(t_id *id, int action);
 sem_t				*ft_sem_open(char const *name, int value);
 char				*sem_name(char *base, char *buffer, int position);
 void				*philo_life(void *arg);
+int					check_av(int ac, char **av);
 
 #endif

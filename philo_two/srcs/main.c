@@ -83,10 +83,10 @@ static int		start_threads(t_data *data)
 int				main(int ac, char **av)
 {
 	t_data		data;
-	int			i;
 
-	i = -1;
-	if (init_data(&data, ac, av))
+	if (check_av(ac, av))
+		return (1);
+	if (init_data(&data, av))
 		return (clean_end(&data));
 	if (start_threads(&data))
 		return (clean_end(&data));

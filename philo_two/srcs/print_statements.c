@@ -12,12 +12,19 @@
 
 #include "philo_two.h"
 
-int		print_error(void)
+int		print_error(char *message1, int nb, char *message2)
 {
-	ft_putstr("Error: philo_one need 4 or 5 NUMERIC arguments \n");
-	ft_putstr("-> number_of_philosopher time_to_die time_to_eat time");
+	ft_putstr("Error: ");
+	if (message1)
+		ft_putstr(message1);
+	if (nb != -1)
+		ft_putnbr(nb);
+	if (message2)
+		ft_putstr(message2);
+	ft_putstr("\n");
+	ft_putstr("Usage: number_of_philosopher time_to_die time_to_eat time");
 	ft_putstr("_to_sleep [number_of_time_each_philosophers_must_eat]\n");
-	return (0);
+	return (1);
 }
 
 char	*action_message(int action)

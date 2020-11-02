@@ -40,7 +40,7 @@ int		ft_atoi(const char *str)
 	return (f * n);
 }
 
-int		is_all_digit(const char *str)
+int		is_all_digit(char *str)
 {
 	int i;
 
@@ -55,7 +55,7 @@ int		is_all_digit(const char *str)
 	return (1);
 }
 
-int		ft_strcpy(char *dest, const char *src)
+int		ft_strcpy(char *dest, char *src)
 {
 	int i;
 

@@ -12,12 +12,12 @@
 
 #include "philo_three.h"
 
-sem_t	*ft_sem_open(char const *name, int value)
+sem_t	*ft_sem_open(const char *name, int value)
 {
 	return (sem_open(name, O_CREAT | O_EXCL, 0644, value));
 }
 
-char	*sem_name(char const *base, char *buffer, int position)
+char	*sem_name(char *base, char *buffer, int position)
 {
 	int	i;
 

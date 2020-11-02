@@ -87,6 +87,8 @@ int				main(int ac, char **av)
 {
 	t_data		data;
 
+	if (check_av(ac, av))
+		return (1);
 	if (init_data(&data, ac, av))
 		return (clean_end(&data));
 	if (start_threads(&data))

@@ -59,11 +59,13 @@ static int		start_process(t_data *data)
 	return (0);
 }
 
-int				main(int ac, char const **av)
+int				main(int ac, char **av)
 {
 	t_data		data;
 	int			i;
 
+	if (check_av(ac, av))
+		return (1);
 	if (data_init(&data, ac, av)
 		|| start_monitor_thread(&data)
 		|| start_process(&data))

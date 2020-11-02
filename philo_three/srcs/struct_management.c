@@ -12,19 +12,24 @@
 
 #include "philo_three.h"
 
-static int		check_av(int ac, const char **av)
+int				check_av(int ac, char **av)
 {
 	int	i;
 
 	i = 0;
 	if (!(ac == 5 || ac == 6))
-		return (print_error());
+		return (print_error("number of arguments = ", ac, " (must be 5 or 6)"));
 	while (av[++i])
 	{
 		if (!is_all_digit(av[i]))
-			return (print_error());
+			return (print_error("argument number ", i, " is not only digit"));
 	}
-	return (1);
+	if (ft_atoi(av[1]) < 2)
+	{
+		return (print_error("the number ", ft_atoi(av[1]),
+			" is not a valid number of philosophers"));
+	}
+	return (0);
 }
 
 static int		init_sems(t_data *data)
@@ -65,21 +70,15 @@ static int		init_id(t_data *data)
 	return (0);
 }
 
-int				data_init(t_data *data, int ac, char const **av)
+int				data_init(t_data *data, int ac, char **av)
 {
-	if (!check_av(ac, av))
-		return (1);
 	data->nb_philo = ft_atoi(av[1]);
 	data->time_die = ft_atoi(av[2]);
 	data->time_eat = ft_atoi(av[3]);
 	data->time_sleep = ft_atoi(av[4]);
 	data->must_eat = 0;
-	if (av[5])
+	if (ac == 6)
 		data->must_eat = ft_atoi(av[5]);
-	if (data->nb_philo < 2 || data->nb_philo > 200 || data->time_die < 60
-		|| data->time_eat < 60 || data->time_sleep < 60
-		|| data->must_eat < 0)
-		return (1);
 	data->time_eat *= 1000;
 	data->time_sleep *= 1000;
 	data->forks_s = NULL;

@@ -20,7 +20,8 @@ void	*monitor(void *arg)
 	while (1)
 	{
 		sem_wait(id->philo_s);
-		if (!id->is_eating && (get_time() > (id->last_meal + id->data->time_die)))
+		if (!id->is_eating && (get_time() >
+			(id->last_meal + id->data->time_die)))
 		{
 			print_state(id, DEAD);
 			sem_post(id->philo_s);

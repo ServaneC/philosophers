@@ -67,6 +67,7 @@ t_u64					get_time(void);
 void					*philo_life(void *arg);
 void					print_state(t_id *id, int action);
 int						is_all_digit(char *str);
-int						print_error(void);
+int						print_error(char *message1, int nb, char *message2);
+int						check_av(int ac, char **av);
 
 #endif
