@@ -55,11 +55,9 @@ static void		init_id(t_data *data)
 	i = -1;
 	while (++i < data->nb_philo)
 	{
-		data->id[i].is_eating = 0;
 		data->id[i].philo_id = i;
 		data->id[i].left_frk = i;
 		data->id[i].right_frk = (i + 1) % data->nb_philo;
-		data->id[i].nb_meals = 0;
 		data->id[i].data = data;
 		pthread_mutex_init(&data->id[i].philo_mtx, NULL);
 		pthread_mutex_init(&data->id[i].eat_mtx, NULL);

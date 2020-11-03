@@ -94,6 +94,6 @@ int				main(int ac, char **av)
 	if (start_threads(&data))
 		return (clean_end(&data));
 	pthread_mutex_lock(&data.death_mtx);
-	pthread_mutex_unlock(&data.death_mtx);
-	return (clean_end(&data));
+	clean_end(&data);
+	return (0);
 }

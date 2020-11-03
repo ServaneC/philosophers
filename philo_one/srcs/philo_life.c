@@ -23,12 +23,9 @@ static void		taking_forks(t_id *id)
 static void		philo_eat(t_id *id)
 {
 	pthread_mutex_lock(&id->philo_mtx);
-	id->is_eating = 1;
 	id->last_meal = get_time();
 	print_state(id, EAT);
 	usleep(id->data->time_eat);
-	id->nb_meals++;
-	id->is_eating = 0;
 	pthread_mutex_unlock(&id->philo_mtx);
 	pthread_mutex_unlock(&id->eat_mtx);
 }
@@ -48,16 +45,12 @@ void			*monitor(void *arg)
 	id = (t_id *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&id->philo_mtx);
-		if (!id->is_eating && (get_time() >
-			(id->last_meal + id->data->time_die)))
+		if ((get_time() > (id->last_meal + id->data->time_die)))
 		{
 			print_state(id, DEAD);
-			pthread_mutex_unlock(&id->philo_mtx);
 			pthread_mutex_unlock(&id->data->death_mtx);
 			return ((void*)0);
 		}
-		pthread_mutex_unlock(&id->philo_mtx);
 		usleep(1000);
 	}
 }

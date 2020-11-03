@@ -46,9 +46,7 @@ typedef struct			s_data
 typedef struct			s_id
 {
 	int					philo_id;
-	int					is_eating;
 	t_u64				last_meal;
-	int					nb_meals;
 	t_data				*data;
 	int					left_frk;
 	int					right_frk;
