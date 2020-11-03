@@ -57,7 +57,6 @@ static int		init_id(t_data *data)
 		data->id[i].is_eating = 0;
 		data->id[i].philo_id = i;
 		data->id[i].data = data;
-		data->id[i].nb_meals = 0;
 		sem_name(SEM_PHILO, (char*)semaphore, i);
 		sem_unlink(semaphore);
 		if ((data->id[i].philo_s = ft_sem_open(semaphore, 1)) < 0)

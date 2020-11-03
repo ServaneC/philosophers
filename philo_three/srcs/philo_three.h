@@ -66,7 +66,6 @@ typedef struct		s_id
 	int				is_eating;
 	t_u64			last_meal;
 	t_data			*data;
-	int				nb_meals;
 	sem_t			*philo_s;
 	sem_t			*eat_sem;
 }					t_id;
@@ -86,7 +85,7 @@ int					data_init(t_data *data, int ac, char **av);
 void				*philo_life(void *arg);
 int					exec_philo(t_id *id);
 char				*sem_name(char *base, char *buffer, int position);
-void				*monitor(void *arg);
+void				*check_death(void *arg);
 sem_t				*ft_sem_open(const char *name, int value);
 int					start_monitor_thread(t_data *data);
 int					check_av(int ac, char **av);

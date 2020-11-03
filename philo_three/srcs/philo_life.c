@@ -27,7 +27,6 @@ static void		philo_eat(t_id *id)
 	id->last_meal = get_time();
 	print_state(id, EAT);
 	usleep(id->data->time_eat);
-	id->nb_meals++;
 	id->is_eating = 0;
 	sem_post(id->philo_s);
 	sem_post(id->eat_sem);
@@ -46,7 +45,7 @@ int				exec_philo(t_id *id)
 	pthread_t	thread;
 
 	id->last_meal = get_time();
-	if (pthread_create(&thread, NULL, &monitor, id) != 0)
+	if (pthread_create(&thread, NULL, &check_death, id) != 0)
 		return (1);
 	pthread_detach(thread);
 	while (1)

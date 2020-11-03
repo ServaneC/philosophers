@@ -12,28 +12,25 @@
 
 #include "philo_three.h"
 
-void	*monitor(void *arg)
+void	*check_death(void *arg)
 {
 	t_id		*id;
 
 	id = (t_id *)arg;
 	while (1)
 	{
-		sem_wait(id->philo_s);
 		if (!id->is_eating && (get_time() >
 			(id->last_meal + id->data->time_die)))
 		{
 			print_state(id, DEAD);
-			sem_post(id->philo_s);
 			sem_post(id->data->death_s);
 			return ((void*)0);
 		}
-		sem_post(id->philo_s);
 		usleep(1000);
 	}
 }
 
-void	*monitor_count(void *arg)
+void	*must_eat_count(void *arg)
 {
 	t_data	*data;
 	int		total;
@@ -59,7 +56,7 @@ int		start_monitor_thread(t_data *data)
 
 	if (data->must_eat > 0)
 	{
-		if (pthread_create(&tid, NULL, &monitor_count, (void*)data) != 0)
+		if (pthread_create(&tid, NULL, &must_eat_count, (void*)data) != 0)
 			return (1);
 		pthread_detach(tid);
 	}
