@@ -38,7 +38,7 @@ static void		philo_sleep(t_id *id)
 	usleep(id->data->time_sleep);
 }
 
-void			*monitor(void *arg)
+void			*check_death(void *arg)
 {
 	t_id		*id;
 
@@ -63,7 +63,7 @@ void			*philo_life(void *arg)
 	id = (t_id *)arg;
 	id->last_meal = get_time();
 	thread = 0;
-	if (pthread_create(&thread, NULL, &monitor, arg) != 0)
+	if (pthread_create(&thread, NULL, &check_death, arg) != 0)
 		return ((void*)1);
 	pthread_detach(thread);
 	while (1)

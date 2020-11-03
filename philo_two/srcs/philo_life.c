@@ -27,7 +27,6 @@ static void		philo_eat(t_id *id)
 	id->last_meal = get_time();
 	print_state(id, EAT);
 	usleep(id->data->time_eat);
-	id->nb_meals++;
 	id->is_eating = 0;
 	sem_post(id->philo_s);
 	sem_post(id->eat_sem);
@@ -41,22 +40,19 @@ static void		philo_sleep(t_id *id)
 	usleep(id->data->time_sleep);
 }
 
-void			*monitor(void *arg)
+void			*check_death(void *arg)
 {
 	t_id		*id;
 
 	id = (t_id *)arg;
 	while (1)
 	{
-		sem_wait(id->philo_s);
 		if (!id->is_eating && get_time() > (id->last_meal + id->data->time_die))
 		{
 			print_state(id, DEAD);
-			sem_post(id->philo_s);
 			sem_post(id->data->death_s);
 			return ((void*)0);
 		}
-		sem_post(id->philo_s);
 		usleep(1000);
 	}
 }
@@ -68,7 +64,7 @@ void			*philo_life(void *arg)
 
 	id = (t_id *)arg;
 	id->last_meal = get_time();
-	if (pthread_create(&thread, NULL, &monitor, arg) != 0)
+	if (pthread_create(&thread, NULL, &check_death, arg) != 0)
 		return ((void *)1);
 	pthread_detach(thread);
 	while (1)

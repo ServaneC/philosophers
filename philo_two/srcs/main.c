@@ -17,14 +17,13 @@ static int		clean_end(t_data *data)
 	int		i;
 	char	semaphore[250];
 
-	sem_unlink(SEM_FORKS);
-	sem_unlink(SEM_WR);
-	sem_unlink(SEM_DEATH);
 	if (data->id)
 	{
 		i = 0;
 		while (i < data->nb_philo)
 		{
+			sem_close(data->id[i].philo_s);
+			sem_close(data->id[i].eat_sem);
 			sem_name(SEM_PHILO, (char*)semaphore, i);
 			sem_unlink(semaphore);
 			sem_name(SEM_MUST_EAT, (char*)semaphore, i++);
@@ -32,10 +31,15 @@ static int		clean_end(t_data *data)
 		}
 		free(data->id);
 	}
+	sem_close(data->wr_right);
+	sem_close(data->death_s);
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_WR);
+	sem_unlink(SEM_DEATH);
 	return (1);
 }
 
-static void		*monitor_count(void *arg)
+static void		*must_eat_count(void *arg)
 {
 	t_data	*data;
 	int		i;
@@ -64,16 +68,14 @@ static int		start_threads(t_data *data)
 	data->start = get_time_ms();
 	if (data->must_eat > 0)
 	{
-		if (pthread_create(&tid, NULL, &monitor_count, (void*)data) != 0)
-			return (1);
+		pthread_create(&tid, NULL, &must_eat_count, (void*)data);
 		pthread_detach(tid);
 	}
 	i = -1;
 	while (++i < data->nb_philo)
 	{
 		philo = (void*)(&data->id[i]);
-		if (pthread_create(&tid, NULL, &philo_life, philo) != 0)
-			return (1);
+		pthread_create(&tid, NULL, &philo_life, (void*)philo);
 		pthread_detach(tid);
 		usleep(100);
 	}

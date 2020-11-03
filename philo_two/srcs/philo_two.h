@@ -59,7 +59,6 @@ typedef struct		s_id
 	int				is_eating;
 	t_u64			last_meal;
 	t_data			*data;
-	int				nb_meals;
 	sem_t			*philo_s;
 	sem_t			*eat_sem;
 }					t_id;

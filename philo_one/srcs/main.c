@@ -38,7 +38,7 @@ static int		clean_end(t_data *data)
 	return (1);
 }
 
-static void		*monitor_count(void *arg)
+static void		*must_eat_count(void *arg)
 {
 	t_data	*data;
 	int		i;
@@ -67,7 +67,7 @@ static int		start_threads(t_data *data)
 	data->start = get_time_ms();
 	if (data->must_eat > 0)
 	{
-		if (pthread_create(&tid, NULL, &monitor_count, (void*)data) != 0)
+		if (pthread_create(&tid, NULL, &must_eat_count, (void*)data) != 0)
 			return (1);
 		pthread_detach(tid);
 	}
